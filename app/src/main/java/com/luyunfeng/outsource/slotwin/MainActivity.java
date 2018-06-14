@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -16,7 +18,11 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,45 +65,54 @@ public class MainActivity extends AppCompatActivity {
 
 
         List<BarEntry> barEntries = new ArrayList<>();
-
-        barEntries.add(new BarEntry(1, 0.11f));
+        barEntries.add(new BarEntry(0, 0f));
+        barEntries.add(new BarEntry(1, 0.31f));
         barEntries.add(new BarEntry(2, 0.82f));
         barEntries.add(new BarEntry(3, 0.61f));
         barEntries.add(new BarEntry(4, 0.53f));
         BarDataSet barDataSet = new BarDataSet(barEntries, "Label3"); // add entries to dataset
-//        barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+        barDataSet.setFormSize(2f);
+        barDataSet.setValueFormatter(new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                return String.valueOf(value * 100);
+            }
+        });
+        barDataSet.setColors(Color.parseColor("#FFB90F"), Color.parseColor("#FF6A6A"));
         BarData barData = new BarData();
+        barData.setBarWidth(0.5f);
         barData.addDataSet(barDataSet);
         combinedData.setData(barData);
 
-//        YAxis right = chart.getAxisRight();
-//        right.setInverted(true);
-//        right.setDrawZeroLine(true);
-//        right.setDrawLabels(false); // no axis labels
-//        right.setDrawGridLines(false);
-//        right.setDrawAxisLine(true);
-//        right.setStartAtZero(false);
-//        right.setZeroLineColor(Color.parseColor("#FF6A6A"));
-//        right.setZeroLineWidth(6);
-//        right.setAxisMinimum(-1);
-//        right.setAxisMaximum(0);
-//        right.setSpaceTop(10);
-//        chart.getXAxis().setYOffset(10);
-        chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-        YAxis left = chart.getAxisLeft();
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setLabelCount(barEntries.size(), true);
+        xAxis.setAvoidFirstLastClipping(true);
         YAxis right = chart.getAxisRight();
         right.setDrawLabels(false);
         right.setDrawGridLines(false);
 
-//        left.setSpaceBottom(10);
+        YAxis left = chart.getAxisLeft();
+        left.setLabelCount(7);
+        left.setSpaceBottom(0);
+        left.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return String.valueOf(value - 2);
+            }
+        });
+
+
+        LimitLine limitLine = new LimitLine(2); //得到限制线
+        limitLine.setLineWidth(2f); //宽度
+        limitLine.setLineColor(Color.parseColor("#FF6A6A"));
+        left.addLimitLine(limitLine); //Y轴添加限制线
+
 //        left.setDrawLabels(false); // no axis labels
 //        left.setDrawGridLines(false); // no grid lines
-
-        left.setDrawZeroLine(true); // draw a zero line
-        left.setZeroLineColor(Color.parseColor("#FF6A6A"));
-        left.setZeroLineWidth(6);
-        left.setAxisMinimum(-1);
-
+//        left.setDrawZeroLine(true); // draw a zero line
+//        left.setZeroLineColor(Color.parseColor("#FF6A6A"));
+//        left.setZeroLineWidth(6);
         chart.setData(combinedData);
         chart.invalidate(); // refresh
 
