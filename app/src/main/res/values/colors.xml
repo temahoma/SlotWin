@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="price_reg">#08178b</color>
+    <color name="price_big">#fd360f</color>
+    <color name="profit_line">#0ed78a</color>
+    <color name="profit_text">#04643f</color>
+
 </resources>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.luyunfeng.outsource.slotwin.MainActivity">
+    tools:context=".mvp.chart.ChartActivity">
 
     <com.github.mikephil.charting.charts.CombinedChart
         android:id="@+id/chart"
