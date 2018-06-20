@@ -1,8 +1,6 @@
 package com.luyunfeng.outsource.slotwin.mvp.chart;
 
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.github.mikephil.charting.charts.CombinedChart;
@@ -38,19 +36,22 @@ import java.util.List;
 
 public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartContract.IPresenter> implements ChartContract.IView {
 
+    CombinedChart chart;
+
     @Override
     public void initialized() {
-        prestener.setUrl("http://papimo.jp/h/00001616/hit/view/717/20180616");
+
+        chart = findViewById(R.id.chart);
+        chart.setNoDataText("Loading...");
+        chart.setDescription(null);
+
+        prestener.setUrl("http://papimo.jp/h/00001616/hit/view/717/20180618");
         prestener.readHtml();
     }
 
     @Override
     public void display(List<Bouns> bounsList) {
 
-        Log.d("test", Thread.currentThread().getName());
-
-        CombinedChart chart = findViewById(R.id.chart);
-        chart.setDescription(null);
         CombinedData combinedData = new CombinedData();
 
         final float lineFactor = getLineFactor(bounsList);
@@ -101,6 +102,11 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
         chart.invalidate(); // refresh
     }
 
+    @Override
+    public void error() {
+        chart.setNoDataText("Error");
+    }
+
     LineData getLineData(List<Bouns> bounsList, float factor) {
 
         List<Entry> entries = new ArrayList<>();
@@ -108,7 +114,7 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
         for (Bouns bouns : bounsList) {
             Entry entry = new Entry(
                     bouns.index,
-                    bouns.bonus * bouns.count * factor + 1,
+                    bouns.accumulateProfit * factor + 1,
                     bouns
             );
             entries.add(entry);
@@ -186,11 +192,11 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
         Bouns maxBonus = Collections.max(counts, new Comparator<Bouns>() {
             @Override
             public int compare(Bouns o1, Bouns o2) {
-                return Integer.compare(o1.bonus * o1.count, o2.count * o2.count);
+                return Integer.compare(o1.accumulateProfit, o2.accumulateProfit);
             }
         });
 
-        float factor = 8f / (maxBonus.bonus * maxBonus.count) * 0.8f;
+        float factor = 8f / (maxBonus.accumulateProfit) * 0.8f;
         return factor;
     }
 

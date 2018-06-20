@@ -14,6 +14,6 @@ public class ProfitValueFormatter implements IValueFormatter {
     @Override
     public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
         Bouns bouns = (Bouns) entry.getData();
-        return String.valueOf(bouns.count * bouns.bonus);
+        return String.valueOf(bouns.accumulateProfit);
     }
 }

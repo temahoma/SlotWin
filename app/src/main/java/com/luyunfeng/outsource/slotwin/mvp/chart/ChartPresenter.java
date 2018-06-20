@@ -25,60 +25,57 @@ import java.util.List;
 public class ChartPresenter extends ChartContract.IPresenter
         implements Responder.OnResponseListener {
 
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == MessageCode.MESSAGE_HTML) {
                 if (HttpUtil.ok(msg.arg1)) {
-                    List<Bouns> bonusList = new ArrayList<>();
-                    final Document document = (Document) msg.obj;
-                    Element body = document.body();
-                    Element history = body.getElementById("tab-history-index");
-                    Elements elements = history.getElementsByTag("tbody");
-                    Element tbody = elements.get(0);
-                    Elements records = tbody.getElementsByTag("tr");
+                    try {
+                        List<Bouns> bonusList = new ArrayList<>();
+                        final Document document = (Document) msg.obj;
+                        Element body = document.body();
+                        Element history = body.getElementById("tab-history-index");
+                        Elements elements = history.getElementsByTag("tbody");
+                        Element tbody = elements.get(0);
+                        Elements records = tbody.getElementsByTag("tr");
 
-                    for (int i = records.size() - 1; i >= 0; i--) {
-                        Element record = records.get(i);
+                        for (int i = records.size() - 1; i >= 0; i--) {
+                            Element record = records.get(i);
 //                    Element cnt = record.getElementsByClass("cnt").get(0);
 //                    Integer count = Integer.parseInt(cnt.html());
 //                    Element time = record.getElementsByClass("time").get(0);
 //                    String timeString = time.html();
-                        Element start = record.getElementsByClass("start").get(0);
-                        Integer count = Integer.parseInt(start.html());
+                            Element start = record.getElementsByClass("start").get(0);
+                            Integer count = Integer.parseInt(start.html());
 
-                        String bonusType = PriceType.REG;
-                        Elements elementsBig = record.getElementsByClass("big");
-                        if (elementsBig != null && elementsBig.size() > 0){
-                            Element big = elementsBig.get(0);
-                            if (big != null){
-                                bonusType = PriceType.BIG;
+                            String bonusType = PriceType.REG;
+                            Elements elementsBig = record.getElementsByClass("big");
+                            if (elementsBig != null && elementsBig.size() > 0) {
+                                Element big = elementsBig.get(0);
+                                if (big != null) {
+                                    bonusType = PriceType.BIG;
+                                }
                             }
+
+                            Element out = record.getElementsByClass("out").get(0);
+                            Integer bonus = Integer.parseInt(out.html());
+
+                            int accumulateProfit = bonus - count / 33 * 50;
+                            if (bonusList.size() > 0) {
+                                accumulateProfit += bonusList.get(bonusList.size() - 1).accumulateProfit;
+                            }
+                            Bouns bouns = new Bouns(bonusList.size() + 1, count, bonus, accumulateProfit, bonusType);
+                            bonusList.add(bouns);
                         }
 
-                        Element out = record.getElementsByClass("out").get(0);
-                        Integer bonus = Integer.parseInt(out.html());
-
-                        Bouns bouns = new Bouns(bonusList.size()+1, count, bonus, bonusType);
-                        bonusList.add(bouns);
+                        mView.display(bonusList);
+                    } catch (Throwable throwable) {
+                        mView.error();
                     }
-
-//                List<Bouns> bonusList = new ArrayList<Bouns>() {{
-//                    add(new Bouns(1, 251, 325, PriceType.BIG));
-//                    add(new Bouns(2, 120, 325, PriceType.BIG));
-//                    add(new Bouns(3, 263, 324, PriceType.BIG));
-//                    add(new Bouns(4, 24, 325, PriceType.BIG));
-//                    add(new Bouns(5, 4, 104, PriceType.REG));
-//                    add(new Bouns(6, 181, 104, PriceType.REG));
-//                    add(new Bouns(7, 477, 324, PriceType.BIG));
-//                    add(new Bouns(8, 17, 324, PriceType.BIG));
-//                }};
-
-                    mView.display(bonusList);
                 } else {
-
+                    mView.error();
                 }
-            }else {
+            } else {
                 super.handleMessage(msg);
             }
         }

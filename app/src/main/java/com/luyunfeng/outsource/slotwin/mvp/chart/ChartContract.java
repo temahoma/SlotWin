@@ -16,6 +16,7 @@ public interface ChartContract {
 
     interface IView extends BaseView {
         void display(List<Bouns> bounsList);
+        void error();
     }
 
     abstract class IPresenter extends BasePresenter<IView> {
