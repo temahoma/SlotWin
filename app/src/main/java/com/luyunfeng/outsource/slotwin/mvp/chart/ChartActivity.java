@@ -1,7 +1,6 @@
 package com.luyunfeng.outsource.slotwin.mvp.chart;
 
 import android.graphics.Color;
-import android.util.Log;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -20,13 +19,10 @@ import com.luyunfeng.outsource.slotwin.CountValueFormatter;
 import com.luyunfeng.outsource.slotwin.ProfitValueFormatter;
 import com.luyunfeng.outsource.slotwin.R;
 import com.luyunfeng.outsource.slotwin.bean.EmptyValueFormatter;
-import com.luyunfeng.outsource.slotwin.bean.Bouns;
+import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
 import com.luyunfeng.outsource.slotwin.bean.PriceType;
 import com.luyunfeng.outsource.slotwin.mvp.base.BaseMvpActivity;
 import com.luyunfeng.outsource.slotwin.utils.ResourceHelper;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -45,12 +41,12 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
         chart.setNoDataText("Loading...");
         chart.setDescription(null);
 
-        prestener.setUrl("http://papimo.jp/h/00001616/hit/view/717/20180618");
+        prestener.setUrl("http://papimo.jp/h/00001616/hit/view/717/20180620");
         prestener.readHtml();
     }
 
     @Override
-    public void display(List<Bouns> bounsList) {
+    public void display(List<? extends BaseBouns> bounsList) {
 
         CombinedData combinedData = new CombinedData();
 
@@ -80,13 +76,13 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
         left.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                if (value == 0) {
-                    return "";
-                }
+//                if (value == 0) {
+//                    return "";
+//                }
                 float yValue = (value - 1) / lineFactor;
-                if (yValue < 0){
-                    return "";
-                }
+//                if (yValue < 0){
+//                    return "";
+//                }
                 BigDecimal bigDecimal  =   new  BigDecimal((value - 1) / lineFactor);
                 bigDecimal = bigDecimal.setScale(0,  BigDecimal.ROUND_HALF_UP);
                 return bigDecimal.toString();
@@ -103,15 +99,16 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
     }
 
     @Override
-    public void error() {
-        chart.setNoDataText("Error");
+    public void empty() {
+        chart.setNoDataText("Empty");
+        chart.invalidate();
     }
 
-    LineData getLineData(List<Bouns> bounsList, float factor) {
+    LineData getLineData(List<? extends BaseBouns> bounsList, float factor) {
 
         List<Entry> entries = new ArrayList<>();
 
-        for (Bouns bouns : bounsList) {
+        for (BaseBouns bouns : bounsList) {
             Entry entry = new Entry(
                     bouns.index,
                     bouns.accumulateProfit * factor + 1,
@@ -132,13 +129,13 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
         return lineData;
     }
 
-    BarData getBarData(List<Bouns> bounsList) {
+    BarData getBarData(List<? extends BaseBouns> bounsList) {
 
         float factor = getBarFactor(bounsList);
 
         List<BarEntry> bigPriceEntries = new ArrayList<>();
         List<BarEntry> regPriceEntries = new ArrayList<>();
-        for (Bouns bouns : bounsList) {
+        for (BaseBouns bouns : bounsList) {
             BarEntry barEntry = new BarEntry(
                     bouns.index,
                     bouns.count * factor,
@@ -177,10 +174,10 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
         return barData;
     }
 
-    float getBarFactor(List<Bouns> counts) {
-        int maxCount = Collections.max(counts, new Comparator<Bouns>() {
+    float getBarFactor(List<? extends BaseBouns> counts) {
+        int maxCount = Collections.max(counts, new Comparator<BaseBouns>() {
             @Override
-            public int compare(Bouns o1, Bouns o2) {
+            public int compare(BaseBouns o1, BaseBouns o2) {
                 return Integer.compare(o1.count, o2.count);
             }
         }).count;
@@ -188,10 +185,10 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
         return factor;
     }
 
-    float getLineFactor(List<Bouns> counts) {
-        Bouns maxBonus = Collections.max(counts, new Comparator<Bouns>() {
+    float getLineFactor(List<? extends BaseBouns> counts) {
+        BaseBouns maxBonus = Collections.max(counts, new Comparator<BaseBouns>() {
             @Override
-            public int compare(Bouns o1, Bouns o2) {
+            public int compare(BaseBouns o1, BaseBouns o2) {
                 return Integer.compare(o1.accumulateProfit, o2.accumulateProfit);
             }
         });

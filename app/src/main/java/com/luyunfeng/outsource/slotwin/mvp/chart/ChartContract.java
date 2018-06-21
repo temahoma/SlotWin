@@ -1,8 +1,6 @@
 package com.luyunfeng.outsource.slotwin.mvp.chart;
 
-import android.view.View;
-
-import com.luyunfeng.outsource.slotwin.bean.Bouns;
+import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
 import com.luyunfeng.outsource.slotwin.mvp.base.BasePresenter;
 import com.luyunfeng.outsource.slotwin.mvp.base.BaseView;
 
@@ -15,8 +13,8 @@ import java.util.List;
 public interface ChartContract {
 
     interface IView extends BaseView {
-        void display(List<Bouns> bounsList);
-        void error();
+        void display(List<? extends BaseBouns> bounsList);
+        void empty();
     }
 
     abstract class IPresenter extends BasePresenter<IView> {

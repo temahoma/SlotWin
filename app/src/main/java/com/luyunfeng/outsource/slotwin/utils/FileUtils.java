@@ -21,8 +21,7 @@ public class FileUtils {
     //故依然写在手机内部储存当中。
     public final static String DATA_DIR
             = MyApplication.getContext().getFilesDir().getAbsolutePath() + File.separator
-            + "slotwin" + File.separator
-            + "data" + File.separator;
+            + "slotwin" + File.separator;
 
     public static String readTextData(InputStream input) throws IOException {
         if (input == null){

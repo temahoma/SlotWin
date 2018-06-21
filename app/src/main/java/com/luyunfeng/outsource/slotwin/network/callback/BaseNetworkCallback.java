@@ -52,7 +52,7 @@ public abstract class BaseNetworkCallback implements NetworkCallback {
                 + "url = " + url + "\n"
                 + "statusCode = " + statusCode + "\n"
                 + (responseBody != null ? ("responseBody = " + new String(responseBody) + "\n") : "")
-                + (error != null ? ("error = " + error.toString() + "\n") : ""));
+                + (error != null ? ("empty = " + error.toString() + "\n") : ""));
 
         if (responder != null && responseMsg != null) {
             responseMsg.arg1 = MessageCode.RESULT_HTTP_FAILED;
