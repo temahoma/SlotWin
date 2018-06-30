@@ -1,6 +1,7 @@
 package com.luyunfeng.outsource.slotwin.mvp.chart;
 
 import android.graphics.Color;
+import android.os.Bundle;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -22,14 +23,28 @@ import com.luyunfeng.outsource.slotwin.bean.EmptyValueFormatter;
 import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
 import com.luyunfeng.outsource.slotwin.bean.PriceType;
 import com.luyunfeng.outsource.slotwin.mvp.base.BaseMvpActivity;
+import com.luyunfeng.outsource.slotwin.shop.BaseShop;
+import com.luyunfeng.outsource.slotwin.shop.PapimoShop;
+import com.luyunfeng.outsource.slotwin.shop.ShopBuilder;
 import com.luyunfeng.outsource.slotwin.utils.ResourceHelper;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
+/**
+ * http://papimo.jp/h/00001616/hit/view/717/20180623
+ * http://www.paradiso.jp/machine_data/sp/10017/detail.php?h=10017&c=c749ef54b188453ad32b67f20af230a1&k=S20&d=1561
+ * http://639982.p-moba.net/game_machine_detail.php?id=237
+ * http://pleforce.co.jp/holldata/
+ */
 public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartContract.IPresenter> implements ChartContract.IView {
 
     CombinedChart chart;
@@ -37,11 +52,19 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
     @Override
     public void initialized() {
 
-        chart = findViewById(R.id.chart);
-        chart.setNoDataText("Loading...");
-        chart.setDescription(null);
+        Bundle bundle = getIntent().getExtras();
+        String shop = bundle.getString("shop");
 
-        prestener.setUrl("http://papimo.jp/h/00001616/hit/view/717/20180620");
+        Calendar now = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+        String date = df.format(now.getTime());
+
+        Calendar.getInstance();
+        BaseShop baseShop = new ShopBuilder()
+                .setShop(shop)
+                .setDate(date)
+                .build();
+        prestener.setShop(baseShop);
         prestener.readHtml();
     }
 
@@ -50,26 +73,30 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
 
         CombinedData combinedData = new CombinedData();
 
-        final float lineFactor = getLineFactor(bounsList);
-        LineData lineData = getLineData(bounsList, lineFactor);
+        final int lineOffset = getLineOffset(bounsList);
+        final float lineFactor = getLineFactor(bounsList, lineOffset);
+        LineData lineData = getLineData(bounsList, lineOffset, lineFactor);
         combinedData.setData(lineData);
 
         BarData barData = getBarData(bounsList);
         combinedData.setData(barData);
 
-        XAxis xAxis = chart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        int labelCount = Math.min(bounsList.size(), 15);
-        xAxis.setLabelCount(labelCount, true);
-        xAxis.setAvoidFirstLastClipping(true);
-        xAxis.enableGridDashedLine(10,10,0);
+        setupXAxis(bounsList.size());
+
+        setupYAxis(lineOffset, lineFactor);
+
+        chart.setData(combinedData);
+        chart.invalidate(); // refresh
+    }
+
+    private void setupYAxis(final int lineOffset, final float lineFactor) {
 
         YAxis right = chart.getAxisRight();
         right.setDrawLabels(false);
         right.setDrawGridLines(false);
 
         YAxis left = chart.getAxisLeft();
-        left.enableGridDashedLine(10,10,0);
+        left.enableGridDashedLine(10, 10, 0);
         left.setLabelCount(7, true);
         left.setSpaceBottom(0);
         left.setTextSize(8);
@@ -79,23 +106,30 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
 //                if (value == 0) {
 //                    return "";
 //                }
-                float yValue = (value - 1) / lineFactor;
+                float yValue = ((value - 1) / lineFactor) - lineOffset;
 //                if (yValue < 0){
 //                    return "";
 //                }
-                BigDecimal bigDecimal  =   new  BigDecimal((value - 1) / lineFactor);
-                bigDecimal = bigDecimal.setScale(0,  BigDecimal.ROUND_HALF_UP);
+                BigDecimal bigDecimal = new BigDecimal(yValue);
+                bigDecimal = bigDecimal.setScale(0, BigDecimal.ROUND_HALF_UP);
                 return bigDecimal.toString();
             }
         });
 
-        LimitLine limitLine = new LimitLine(1); //得到限制线
+        LimitLine limitLine = new LimitLine(1 + lineOffset * lineFactor); //得到限制线
         limitLine.setLineWidth(2f); //宽度
-        limitLine.setLineColor(Color.parseColor("#6E6E6E"));
+        limitLine.setLineColor(ResourceHelper.getColor(R.color.fair_line));
+        limitLine.setLabel(getString(R.string.fair));
         left.addLimitLine(limitLine); //Y轴添加限制线
+    }
 
-        chart.setData(combinedData);
-        chart.invalidate(); // refresh
+    private void setupXAxis(int size) {
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        int labelCount = Math.min(size, 15);
+        xAxis.setLabelCount(labelCount, true);
+        xAxis.setAvoidFirstLastClipping(true);
+        xAxis.enableGridDashedLine(10, 10, 0);
     }
 
     @Override
@@ -104,20 +138,21 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
         chart.invalidate();
     }
 
-    LineData getLineData(List<? extends BaseBouns> bounsList, float factor) {
+    LineData getLineData(List<? extends BaseBouns> bounsList, int lineOffset, float factor) {
 
         List<Entry> entries = new ArrayList<>();
 
         for (BaseBouns bouns : bounsList) {
             Entry entry = new Entry(
                     bouns.index,
-                    bouns.accumulateProfit * factor + 1,
+                    (bouns.accumulateProfit + lineOffset) * factor + 1,
                     bouns
             );
             entries.add(entry);
         }
 
-        LineDataSet dataSet = new LineDataSet(entries, "收益(枚)"); // add entries to dataset
+
+        LineDataSet dataSet = new LineDataSet(entries, ResourceHelper.getString(R.string.label_profit)); // add entries to dataset
         dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
         dataSet.setColor(ResourceHelper.getColor(R.color.profit_line));
         dataSet.setValueTextColor(ResourceHelper.getColor(R.color.profit_text));
@@ -147,8 +182,8 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
             }
         }
 
-        BarDataSet bigPriceDataSet = new BarDataSet(bigPriceEntries, "BIG");
-        BarDataSet regPriceDataSet = new BarDataSet(regPriceEntries, "REG");
+        BarDataSet bigPriceDataSet = new BarDataSet(bigPriceEntries, ResourceHelper.getString(R.string.label_big));
+        BarDataSet regPriceDataSet = new BarDataSet(regPriceEntries, ResourceHelper.getString(R.string.label_reg));
         CountValueFormatter countValueFormatter = new CountValueFormatter();
         bigPriceDataSet.setValueFormatter(countValueFormatter);
         regPriceDataSet.setValueFormatter(countValueFormatter);
@@ -185,7 +220,21 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
         return factor;
     }
 
-    float getLineFactor(List<? extends BaseBouns> counts) {
+    int getLineOffset(List<? extends BaseBouns> counts) {
+        int offset = 0;
+        BaseBouns minBonus = Collections.min(counts, new Comparator<BaseBouns>() {
+            @Override
+            public int compare(BaseBouns o1, BaseBouns o2) {
+                return Integer.compare(o1.accumulateProfit, o2.accumulateProfit);
+            }
+        });
+        if (minBonus.accumulateProfit < 0) {
+            offset = -minBonus.accumulateProfit;
+        }
+        return offset;
+    }
+
+    float getLineFactor(List<? extends BaseBouns> counts, int lineOffset) {
         BaseBouns maxBonus = Collections.max(counts, new Comparator<BaseBouns>() {
             @Override
             public int compare(BaseBouns o1, BaseBouns o2) {
@@ -193,19 +242,21 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
             }
         });
 
-        float factor = 8f / (maxBonus.accumulateProfit) * 0.8f;
+        float factor = 8f / (maxBonus.accumulateProfit + lineOffset) * 0.8f;
         return factor;
     }
 
 
     @Override
     public void setupViews() {
-
+        chart = findViewById(R.id.chart);
+        chart.setNoDataText("Loading...");
+        chart.setDescription(null);
     }
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_main;
+        return R.layout.activity_chart;
     }
 
     @Override

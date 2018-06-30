@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SlotWin</string>
+    <string name="fair">持平</string>
+    <string name="label_profit">收益(枚)</string>
+    <string name="label_big">BIG</string>
+    <string name="label_reg">REG</string>
 </resources>

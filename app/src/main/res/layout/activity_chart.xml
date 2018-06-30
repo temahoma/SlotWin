@@ -6,24 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".mvp.chart.ChartActivity">
 
-    <Button
-        android:id="@+id/buttonPapimo"
+    <com.github.mikephil.charting.charts.CombinedChart
+        android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="buttonPapimo"
-        app:layout_constraintBottom_toTopOf="@+id/buttonParadiso"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <Button
-        android:id="@+id/buttonParadiso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="buttonParadiso"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonPapimo"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.luyunfeng.outsource.slotwin.mvp.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.view.View;
 public abstract class BaseMvpActivity<V extends BaseView, P extends BasePresenter<V>>
         extends AppCompatActivity
         implements BaseView,
+        View.OnClickListener,
         BaseUI {
 
     protected P prestener;
@@ -42,6 +44,19 @@ public abstract class BaseMvpActivity<V extends BaseView, P extends BasePresente
         return true;
     }
 
+    protected void openActivity(Class cls, Bundle bundle) {
+        Intent intent = new Intent();
+        intent.setClass(this, cls);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
 
     // 实例化presenter
     protected abstract void initPresenter();

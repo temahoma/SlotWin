@@ -4,9 +4,20 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <!--普通奖-->
     <color name="price_reg">#08178b</color>
+
+    <!--大奖-->
     <color name="price_big">#fd360f</color>
+
+    <!--累积收益曲线-->
     <color name="profit_line">#0ed78a</color>
+
+    <!--累积数值便签-->
     <color name="profit_text">#04643f</color>
+
+    <!--收益持平线-->
+    <color name="fair_line">#6E6E6E</color>
+
 
 </resources>
