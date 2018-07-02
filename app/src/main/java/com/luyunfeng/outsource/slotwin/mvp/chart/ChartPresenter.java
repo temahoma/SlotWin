@@ -4,6 +4,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.cage.library.utils.concurrent.LooperRunnable;
+import com.cage.library.utils.data.JsonParser;
+import com.cage.library.utils.data.ListUtils;
+import com.cage.library.utils.io.FileUtils;
 import com.google.gson.reflect.TypeToken;
 import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
 import com.luyunfeng.outsource.slotwin.bean.PapimoBouns;
@@ -13,16 +17,11 @@ import com.luyunfeng.outsource.slotwin.network.HttpUtil;
 import com.luyunfeng.outsource.slotwin.network.Responder;
 import com.luyunfeng.outsource.slotwin.network.param.Params;
 import com.luyunfeng.outsource.slotwin.shop.BaseShop;
-import com.luyunfeng.outsource.slotwin.utils.DataParser;
-import com.luyunfeng.outsource.slotwin.utils.FileUtils;
-import com.luyunfeng.outsource.slotwin.utils.GsonUtils;
-import com.luyunfeng.outsource.slotwin.utils.ListUtils;
-import com.luyunfeng.outsource.slotwin.utils.LooperRunnable;
+import com.luyunfeng.outsource.slotwin.utils.Config;
 import com.luyunfeng.outsource.slotwin.utils.MessageCode;
 
 import org.jsoup.nodes.Document;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -47,9 +46,9 @@ public class ChartPresenter extends ChartContract.IPresenter
                         if (ListUtils.isEmpty(bonusList)){
                             mView.empty();
                         }else {
-                            String json = GsonUtils.getIns().toJson(bonusList);
+                            String json = JsonParser.getGson().toJson(bonusList);
                             Log.d("test", json);
-                            FileUtils.writeTextData(getBonusFilePath(), getBonusFileName(), json);
+                            FileUtils.writeTextData(Config.DATA_DIR + getBonusFilePath(), getBonusFileName(), json);
                             mView.display(bonusList);
                         }
                     } catch (Throwable throwable) {
@@ -97,15 +96,13 @@ public class ChartPresenter extends ChartContract.IPresenter
     private void readFromFile(){
         String json = "";
         try {
-            json = FileUtils.readTextData(
-                    new FileInputStream(FileUtils.DATA_DIR + getBonusFilePath() + getBonusFileName())
-            );
+            json = FileUtils.readTextData(Config.DATA_DIR + getBonusFilePath() + getBonusFileName());
             Log.d("test", json);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        List<PapimoBouns> bonusList = new DataParser<PapimoBouns>()
+        List<PapimoBouns> bonusList = new JsonParser<PapimoBouns>()
                 .setType(new TypeToken<List<PapimoBouns>>() {
                 })
                 .parseListPrue(json);

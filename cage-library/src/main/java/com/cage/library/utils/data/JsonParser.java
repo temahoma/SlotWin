@@ -1,17 +1,40 @@
-package com.luyunfeng.outsource.slotwin.utils;
+package com.cage.library.utils.data;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.cage.library.infrastructure.log.Log;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class DataParser<T> {
+/**
+ * Created by yufeng on 16/9/20.
+ */
+
+public class JsonParser<T> {
+
+    private volatile static Gson mGson = null;
+
+    public static Gson getGson() {
+        if (mGson == null) {
+            synchronized (JsonParser.class) {
+                if (mGson == null) {
+                    mGson = new GsonBuilder()
+                            .excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC)
+                            .create();
+                }
+            }
+        }
+        return mGson;
+    }
 
     private Type type;
 
-    public DataParser<T> setType(TypeToken typeToken) {
+    public JsonParser<T> setType(TypeToken typeToken) {
         this.type = typeToken.getType();
         return this;
     }
@@ -30,8 +53,9 @@ public class DataParser<T> {
 
         try {
             JSONObject jsonObject = new JSONObject(json.toString());
-            return GsonUtils.getIns().fromJson(jsonObject.getJSONArray("data").toString(), type);
+            return getGson().fromJson(jsonObject.getJSONArray("data").toString(), type);
         } catch (Exception e) {
+            Log.printStackTrace(e);
             return null;
         }
     }
@@ -49,9 +73,9 @@ public class DataParser<T> {
         }
 
         try {
-            return GsonUtils.getIns().fromJson(json.toString(), type);
+            return getGson().fromJson(json.toString(), type);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.printStackTrace(e);
             return null;
         }
     }
@@ -71,13 +95,14 @@ public class DataParser<T> {
         try {
             JSONObject jsonObject = new JSONObject(json.toString());
 
-            List<T> list = GsonUtils.getIns().fromJson(jsonObject.getJSONArray("data").toString(), type);
+            List<T> list = getGson().fromJson(jsonObject.getJSONArray("data").toString(), type);
 
             if (ListUtils.isEmpty(list)) {
                 return null;
             }
             return list.get(0);
         } catch (Exception e) {
+            Log.printStackTrace(e);
             return null;
         }
     }
@@ -93,8 +118,9 @@ public class DataParser<T> {
             return null;
         }
         try {
-            return GsonUtils.getIns().fromJson(json.toString(), clazz);
+            return getGson().fromJson(json.toString(), clazz);
         } catch (Exception e) {
+            Log.printStackTrace(e);
             return null;
         }
     }

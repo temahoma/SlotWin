@@ -24,14 +24,10 @@ import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
 import com.luyunfeng.outsource.slotwin.bean.PriceType;
 import com.luyunfeng.outsource.slotwin.mvp.base.BaseMvpActivity;
 import com.luyunfeng.outsource.slotwin.shop.BaseShop;
-import com.luyunfeng.outsource.slotwin.shop.PapimoShop;
 import com.luyunfeng.outsource.slotwin.shop.ShopBuilder;
-import com.luyunfeng.outsource.slotwin.utils.ResourceHelper;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;

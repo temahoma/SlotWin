@@ -1,0 +1,125 @@
+ext {
+    android = [
+            compileSdkVersion: 27,
+            buildToolsVersion: "27.0.2",
+            minSdkVersion    : 17,
+            targetSdkVersion : 27,
+            versionCode      : 1,
+            versionName      : "1.0.0"
+    ]
+
+    dependencies = [
+            // 支持库
+            "support-appcompat-v7"   : "com.android.support:appcompat-v7:$android.buildToolsVersion",
+            "support-recyclerview-v7": "com.android.support:recyclerview-v7:$android.buildToolsVersion",
+            "support-cardview-v7"    : "com.android.support:cardview-v7:$android.buildToolsVersion",
+            "support-percent"        : "com.android.support:percent:$android.buildToolsVersion",
+            "support-design"         : "com.android.support:design:$android.buildToolsVersion",
+            "support-support-v4"     : "com.android.support:support-v4:$android.buildToolsVersion",
+
+            // GMS
+            "play-services"          : "com.google.android.gms:play-services-base:11.0.2",
+            "google-analytics"       : "com.google.android.gms:play-services-analytics:11.0.2",
+            // compile 'com.google.android.gms:play-services-appindexing:9.8.0'
+
+            // 流式布局
+            "flexbox"                : "com.google.android:flexbox:0.3.0",
+            // 约束布局
+            "constraint-layout"      : 'com.android.support.constraint:constraint-layout:1.0.2',
+            // 加载效果
+            "spinkit"                : 'com.github.ybq:Android-SpinKit:1.1.0',
+            // 美洽
+            "meiqia"                 : 'com.meiqia:meiqiasdk:3.4.6@aar',
+            // 未读消息
+            "badgeview"              : 'q.rorbin:badgeview:1.0.7',
+            // 标签
+            "labelview"              : 'com.github.linger1216:labelview:v1.1.2',
+            // 可展开收缩TextView
+            "expandable-textview"    : 'com.ms-square:expandableTextView:0.1.4',
+            // 图片浏览
+            "photoview"              : 'com.github.chrisbanes:PhotoView:1.3.1',
+            // 圆角图片
+            "rounded-imageview"      : 'com.makeramen:roundedimageview:2.3.0',
+            // switch图标
+            "anim-switcher"          : 'com.github.zagum:Android-SwitchIcon:1.3.5',
+            // segment分段
+            "segment"                : 'info.hoang8f:android-segmented:1.0.6',
+            // 打分
+            "smiley-rating"          : 'com.github.sujithkanna:smileyrating:1.6.5',
+            // dialog
+            "dialogplus"             : 'com.orhanobut:dialogplus:1.11@aar',
+            // 列表左滑菜单
+            "swipe-menu"             : 'com.tubb.smrv:swipemenu-recyclerview:5.3.0',
+            // Toast
+            "toasty"                 : 'com.github.GrenderG:Toasty:1.2.3',
+            // 图片轮播
+            "slider"                 : 'com.daimajia.slider:library:1.1.5@aar',
+            // 列表加载
+            "swipe-to-load-layout"   : 'com.github.Aspsine:SwipeToLoadLayout:1.0.3',
+            // json解析
+            "gson"                   : 'com.google.code.gson:gson:2.8.2',
+            // 加密
+            "jncryptor"              : 'org.cryptonode.jncryptor:jncryptor:1.2.0',
+            // 事件总线
+            "eventbus"               : 'org.greenrobot:eventbus:3.0.0',
+            // 网络通讯
+            "async-http"             : 'com.loopj.android:android-async-http:1.4.9',
+            "okhttp"                 : 'com.squareup.okhttp3:okhttp:3.5.0',
+            // 图片加载
+            "picasso"                : 'com.squareup.picasso:picasso:2.5.2',
+            // 信用卡支付
+            "stripe"                 : 'com.stripe:stripe-android:4.1.5',
+            // 权限
+            "easy-permissions"       : 'pub.devrel:easypermissions:0.2.0',
+            // JSBridge
+            "js-bridge"              : 'com.github.lzyzsd:jsbridge:1.0.4',
+            // 自定义奔溃界面
+            "crash"                  : 'cat.ereza:customactivityoncrash:1.5.0',
+            // 分包
+            "multidex"               : 'com.android.support:multidex:1.0.1',
+            // 微信支付
+            "tenpay"                 : "com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.3.5",
+            // 模糊效果
+            "blurry"                 : "jp.wasabeef:blurry:2.1.1",
+            // 列表分割线
+            "item-decoration"        : "com.yanyusong.y_divideritemdecoration:y_divideritemdecoration:2.0",
+            // 信用卡扫描
+            "card-scan"              : "io.card:android-sdk:5.5.1",
+            // react-native
+            "rn"                     : "com.facebook.react:react-native:0.50.4",
+            // block-canary
+            "block-canary-debug"     : "com.github.markzhai:blockcanary-android:1.5.0",
+            "block-canary-release"   : "com.github.markzhai:blockcanary-no-op:1.5.0",
+    ]
+
+    aarDependencies = [
+            // 日期时间选择器
+            "sublime-picker"       : "sublimepickerlibrary-release",
+            // 底部弹出框
+            "sweetsheet"           : "sweetsheet-release",
+            // 上拉面板
+            "slidingup-panel"      : "slidinguppanel",
+            // 双滑块滑动条
+            "crystal-range-seekbar": "crystalrangeseekbar-release",
+            // tag
+            "tagview"              : "androidtagview-release",
+            // 右划退出
+            "swipe-back"           : "swipe_back_library",
+            // 二维码
+            "zxing"                : "lib-zxing-release",
+            // js引擎
+            "j2v8"                 : 'j2v8-4.8.0'
+    ]
+
+    testDependencies = [
+            "junit"      : 'junit:junit:4.12',
+            "mockito"    : 'org.mockito:mockito-core:1.10.19',
+            "robolectric": 'org.robolectric:robolectric:3.3.2',
+    ]
+
+    projectDependencies = [
+            "sublime-picker": ':sublimepickerlibrary',
+            "sweetsheet"    : ':sweetsheet',
+            "zxing"         : ':lib-zxing'
+    ]
+}

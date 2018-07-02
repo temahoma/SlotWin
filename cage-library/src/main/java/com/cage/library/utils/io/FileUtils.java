@@ -1,8 +1,10 @@
-package com.luyunfeng.outsource.slotwin.utils;
+package com.cage.library.utils.io;
 
 import android.os.Environment;
 
-import com.luyunfeng.outsource.slotwin.MyApplication;
+import com.cage.library.CageLibrary;
+import com.cage.library.infrastructure.log.Log;
+import com.cage.library.infrastructure.text.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,53 +17,41 @@ import java.io.OutputStream;
 
 public class FileUtils {
 
-    //数据存放路径
-    //Environment.getExternalStorageDir() 在用户移除SD卡或者根本没有SD卡(模拟器)时得不到文件路径,
-    //导致文件读写失败,并和文件无权限访问冲突,向用户提示错误信息。
-    //故依然写在手机内部储存当中。
-    public final static String DATA_DIR
-            = MyApplication.getContext().getFilesDir().getAbsolutePath() + File.separator
-            + "slotwin" + File.separator;
+    public static String readTextData(String file) throws IOException {
+        return readTextData(new FileInputStream(file));
+    }
 
     public static String readTextData(InputStream input) throws IOException {
         if (input == null){
             return "";
         }
         InputStreamReader reader = new InputStreamReader(input);
-        BufferedReader bufferedReader = new BufferedReader(reader, 12840);
+        BufferedReader bufferedReader = new BufferedReader(reader);
         StringBuilder builder = new StringBuilder();
         String str;
         while ((str = bufferedReader.readLine()) != null) {
             builder.append(str).append('\n');
         }
 
-        if (builder.length() > 1) {
-            builder.deleteCharAt(builder.length() - 1);
-        }
+        StringUtils.deleteLastChar(builder);
 
         IOUtils.close(bufferedReader);
 
         return builder.toString();
     }
 
-    public static File getImageCacheDir(String folder) {
-        File file = new File(MyApplication.getContext().getExternalFilesDir(
-                Environment.DIRECTORY_DCIM), folder);
-        if (!file.exists()) {
-            file.mkdirs();
-        }
-        return file;
-    }
 
     public static void writeTextData(String directory, String fileName, String message) {
 
-        if (message == null) return;
+        if (message == null) {
+            return;
+        }
 
-        String path = DATA_DIR + directory;
+        File file = newFile(directory, fileName);
 
-        File file = FileUtils.newFile(path, fileName);
-
-        if (file == null) return;
+        if (file == null) {
+            return;
+        }
 
         FileOutputStream fos = null;
 
@@ -69,21 +59,22 @@ public class FileUtils {
             fos = new FileOutputStream(file);
             fos.write(message.getBytes());
         } catch (Exception e) {
-
+            Log.printStackTrace(e);
         } finally {
             IOUtils.close(fos);
         }
     }
 
-    /**
-     * 检查指定目录下的文件是否存在
-     * @param directory {@link #DATA_DIR} 下的目录名
-     * @param fileName 文件名
-     * @return
-     */
+    public static File getImageCacheDir(String folder) {
+        File file = new File(CageLibrary.getAppContext().getExternalFilesDir(Environment.DIRECTORY_DCIM), folder);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        return file;
+    }
+
     public static boolean fileExist(String directory, String fileName) {
-        String path = DATA_DIR + directory;
-        File f = new File(path, fileName);
+        File f = new File(directory, fileName);
         return f.exists();
     }
 
@@ -130,7 +121,7 @@ public class FileUtils {
                     return null;
                 }
             } catch (IOException e) {
-
+                Log.printStackTrace(e);
             }
         } else {
             return file;

@@ -5,10 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.widget.Toast;
 
-import com.luyunfeng.outsource.slotwin.MyApplication;
-import com.luyunfeng.outsource.slotwin.utils.DeviceUtils;
+import com.cage.library.utils.device.DeviceUtils;
 
 
 /**

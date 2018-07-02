@@ -1,22 +1,17 @@
-package com.luyunfeng.outsource.slotwin.utils;
+package com.cage.library.utils.data;
 
-import android.text.TextUtils;
+import com.cage.library.infrastructure.text.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by luyunfeng on 16/7/28.
  */
 public class ListUtils {
-
-    public static boolean isEmpty(Map map) {
-        return map == null || map.isEmpty();
-    }
 
     public static boolean isEmpty(Collection collection) {
         return collection == null || collection.isEmpty();
@@ -49,7 +44,7 @@ public class ListUtils {
 
     public static List<String> split(String regularExpression, String str) {
         List<String> list = null;
-        if (!TextUtils.isEmpty(str)) {
+        if (!StringUtils.isEmpty(str)) {
             String[] array= str.split(regularExpression, -1);
             if (array.length != 0){
                 list = new ArrayList<>(array.length);
@@ -75,7 +70,7 @@ public class ListUtils {
             } else {
                 sb.append(delimiter);
             }
-            if (TextUtils.isEmpty(s)) {
+            if (StringUtils.isEmpty(s)) {
                 sb.append("");
             } else {
                 sb.append(s);
@@ -96,7 +91,7 @@ public class ListUtils {
             } else {
                 sb.append(delimiter);
             }
-            if (TextUtils.isEmpty(s)) {
+            if (StringUtils.isEmpty(s)) {
                 sb.append("");
             } else {
                 sb.append(s);
@@ -116,7 +111,7 @@ public class ListUtils {
                 sb.append(delimiter);
             }
 
-            if (TextUtils.isEmpty(str)) {
+            if (StringUtils.isEmpty(str)) {
                 sb.append("");
             } else {
                 sb.append(str);
@@ -125,7 +120,9 @@ public class ListUtils {
     }
 
     public static <T> List<T> clear(List<T> list) {
-        if (list == null) return new ArrayList<>();
+        if (list == null) {
+            return new ArrayList<>();
+        }
         list.clear();
         return list;
     }

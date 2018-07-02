@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 
-import com.luyunfeng.outsource.slotwin.utils.ResourceHelper;
+import com.cage.library.CageLibrary;
 
 /**
  * Created by luyunfeng on 15/10/26.
@@ -23,6 +23,6 @@ public class MyApplication extends Application
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
-        ResourceHelper.init(context);
+        CageLibrary.init(context);
     }
 }

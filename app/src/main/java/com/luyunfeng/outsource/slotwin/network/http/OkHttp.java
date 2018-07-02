@@ -1,16 +1,12 @@
 package com.luyunfeng.outsource.slotwin.network.http;
 
 
-import com.luyunfeng.outsource.slotwin.network.HttpUtil;
 import com.luyunfeng.outsource.slotwin.network.callback.NetworkCallback;
 import com.luyunfeng.outsource.slotwin.network.param.Params;
-import com.luyunfeng.outsource.slotwin.utils.ThreadHelper;
 
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.concurrent.TimeUnit;
-
-import javax.net.ssl.SSLContext;
 
 import okhttp3.Call;
 import okhttp3.Callback;

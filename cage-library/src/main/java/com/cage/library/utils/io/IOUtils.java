@@ -1,5 +1,6 @@
-package com.luyunfeng.outsource.slotwin.utils;
+package com.cage.library.utils.io;
 
+import com.cage.library.infrastructure.log.Log;
 import java.io.Closeable;
 
 /**
@@ -13,7 +14,7 @@ public class IOUtils {
             try {
                 closeable.close();
             } catch (Exception e) {
-
+                Log.printStackTrace(e);
             }
         }
     }
