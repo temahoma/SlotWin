@@ -68,7 +68,9 @@ public class MainPresenter extends MainContract.IPresenter
                                                 .setName(shopName)
                                                 .setUrl(url)
                                                 .build();
-                                        shops.add(shop);
+                                        if (shop != null) {
+                                            shops.add(shop);
+                                        }
                                     }
                                 }
                             }

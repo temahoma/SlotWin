@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".mvp.chart.ChartActivity" />
+        <activity android:name=".mvp.shop.ShopActivity" />
     </application>
 
 </manifest>

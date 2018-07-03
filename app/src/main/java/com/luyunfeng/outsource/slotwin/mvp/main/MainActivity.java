@@ -6,10 +6,12 @@ import android.widget.Button;
 
 import com.cage.library.utils.data.ListUtils;
 import com.cage.library.utils.list.adapter.CenterTextAdapter;
+import com.cage.library.utils.view.ActivityUtils;
 import com.luyunfeng.outsource.slotwin.R;
 import com.luyunfeng.outsource.slotwin.bean.Prefecture;
 import com.luyunfeng.outsource.slotwin.mvp.base.BaseMvpActivity;
-import com.luyunfeng.outsource.slotwin.mvp.chart.ChartActivity;
+import com.luyunfeng.outsource.slotwin.mvp.shop.ShopActivity;
+import com.luyunfeng.outsource.slotwin.shop.BaseShop;
 import com.luyunfeng.outsource.slotwin.view.dialog.DialogFactory;
 import com.luyunfeng.outsource.slotwin.view.dialog.OnSingleSelectedListener;
 
@@ -57,31 +59,39 @@ public class MainActivity extends BaseMvpActivity<MainContract.IView, MainContra
                 });
             }
         });
+
+        buttonParadiso.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (current == null || ListUtils.isEmpty(current.getShops())) {
+                    return;
+                }
+
+                final List<String> shops = new ArrayList<>(current.getShops().size());
+                for (BaseShop shop : current.getShops()) {
+                    shops.add(shop.name);
+                }
+
+                DialogFactory.show(MainActivity.this, 0, new CenterTextAdapter(shops), new OnSingleSelectedListener() {
+                    @Override
+                    public void onItemSelected(int index) {
+                        BaseShop selected = current.getShops().get(index);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("shop_id", selected.getId());
+                        bundle.putString("shop_name", selected.getName());
+                        bundle.putString("shop_url", selected.getUrl());
+                        bundle.putString("shop_website", selected.getWebsite());
+                        ActivityUtils.open(MainActivity.this, ShopActivity.class, bundle);
+                    }
+                });
+            }
+        });
     }
 
     @Override
     public void setupViews() {
         buttonPapimo = findViewById(R.id.buttonPapimo);
         buttonParadiso = findViewById(R.id.buttonParadiso);
-        buttonPapimo.setOnClickListener(this);
-        buttonParadiso.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.buttonPapimo:
-                Bundle bundle = new Bundle();
-                bundle.putString("shop", "papimo");
-                openActivity(ChartActivity.class, bundle);
-                break;
-            case R.id.buttonParadiso:
-                bundle = new Bundle();
-                bundle.putString("shop", "paradiso");
-                openActivity(ChartActivity.class, bundle);
-                break;
-        }
-        super.onClick(v);
     }
 
     @Override

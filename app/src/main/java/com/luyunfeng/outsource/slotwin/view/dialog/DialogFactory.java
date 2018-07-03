@@ -74,7 +74,7 @@ public class DialogFactory {
         }
         return DialogPlus.newDialog(view.getContext())
                 .setContentHolder(new ViewHolder(view))
-                .setContentHeight(height * 2 / 5 + 20)
+                .setContentHeight(height * 3 / 5)
                 .setGravity(Gravity.BOTTOM)
                 .setInAnimation(R.anim.slide_top_in)
                 .setOutAnimation(R.anim.slide_bottom_out)

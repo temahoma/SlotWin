@@ -17,10 +17,6 @@ import java.util.List;
 
 public class PapimoShop extends BaseShop {
 
-    public PapimoShop(String id, String name, String url) {
-        super(id, name, url);
-    }
-
     @Override
     public List<? extends BaseBouns> parse(Document document) {
         List<BaseBouns> bonusList = new ArrayList<>();

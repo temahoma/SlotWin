@@ -27,17 +27,24 @@ public class ShopBuilder {
 
     public BaseShop build() {
         BaseShop baseShop = null;
+        String shopId = null;
         switch (website) {
             case "PAPIMO-NET":
                 String[] urlParts = url.split("/");
-                String shopId = urlParts[urlParts.length - 1];
-                baseShop = new PapimoShop(shopId, name, url);
+                shopId = urlParts[urlParts.length - 1];
+                baseShop = new PapimoShop();
                 break;
             case "ｵﾘｼﾞﾅﾙｻｲﾄ":
                 urlParts = url.split("/");
                 shopId = urlParts[urlParts.length - 1];
-                baseShop = new ParadisoShop(shopId, name, url);
+                baseShop = new ParadisoShop();
                 break;
+        }
+        if (baseShop != null){
+            baseShop.setId(shopId);
+            baseShop.setName(name);
+            baseShop.setUrl(url);
+            baseShop.setWebsite(website);
         }
         return baseShop;
     }
