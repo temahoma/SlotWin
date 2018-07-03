@@ -12,16 +12,17 @@ import java.util.List;
 
 public abstract class BaseShop {
 
+    public String id;
+
+    public String name;
+
     public String url;
 
-    public String date;
-
-    public BaseShop(String url, String date){
+    public BaseShop(String id, String name, String url) {
+        this.id = id;
+        this.name = name;
         this.url = url;
-        this.date = date;
     }
-
-    public abstract String getName();
 
     public abstract List<? extends BaseBouns> parse(Document document);
 }

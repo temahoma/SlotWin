@@ -3,6 +3,7 @@ package com.luyunfeng.outsource.slotwin.mvp.chart;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.cage.library.infrastructure.resource.ResourceHelper;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.LimitLine;
@@ -19,8 +20,8 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.luyunfeng.outsource.slotwin.CountValueFormatter;
 import com.luyunfeng.outsource.slotwin.ProfitValueFormatter;
 import com.luyunfeng.outsource.slotwin.R;
-import com.luyunfeng.outsource.slotwin.bean.EmptyValueFormatter;
 import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
+import com.luyunfeng.outsource.slotwin.bean.EmptyValueFormatter;
 import com.luyunfeng.outsource.slotwin.bean.PriceType;
 import com.luyunfeng.outsource.slotwin.mvp.base.BaseMvpActivity;
 import com.luyunfeng.outsource.slotwin.shop.BaseShop;
@@ -57,8 +58,7 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
 
         Calendar.getInstance();
         BaseShop baseShop = new ShopBuilder()
-                .setShop(shop)
-                .setDate(date)
+                .setWebsite(shop)
                 .build();
         prestener.setShop(baseShop);
         prestener.readHtml();

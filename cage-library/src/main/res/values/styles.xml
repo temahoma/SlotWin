@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="cage_mm_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="cage_mw_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="cage_ww_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!--滚动组件-->
+    <style name="NoOverScrollStyle">
+        <item name="android:scrollbars">none</item>
+        <item name="android:overScrollMode">never</item>
+    </style>
+
+    <!--列表单项选择样式-->
+    <style name="normal_list_item_selector_style" parent="cage_mw_style">
+        <item name="android:background">?selectableItemBackground</item>
+    </style>
+</resources>

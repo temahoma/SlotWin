@@ -1,0 +1,54 @@
+<resources>
+
+    <style name="text_size_18">
+        <item name="android:textSize">@dimen/normal_1_text_size</item>
+    </style>
+
+    <style name="text_size_15">
+        <item name="android:textSize">@dimen/small_4_text_size</item>
+    </style>
+
+    <style name="text_size_14">
+        <item name="android:textSize">@dimen/small_3_text_size</item>
+    </style>
+
+    <!--白色字体样式-->
+    <style name="white_text_style" parent="cage_ww_style">
+        <item name="android:textColor">@color/pure_white</item>
+        <item name="android:textSize">@dimen/small_3_text_size</item>
+    </style>
+
+
+    <!--主题红字体-->
+    <style name="pink_text_style" parent="cage_ww_style">
+        <item name="android:textColor">@color/main_pink</item>
+        <item name="android:textSize">@dimen/small_3_text_size</item>
+    </style>
+
+    <!--深灰色字体样式-->
+    <style name="dark_grey_text_style" parent="cage_ww_style">
+        <item name="android:textColor">@color/dark_grey_text_color</item>
+        <item name="android:textSize">@dimen/small_3_text_size</item>
+    </style>
+
+    <style name="small_dark_grey_text_match_parent_style" parent="cage_mw_style">
+        <item name="android:textSize">@dimen/small_3_text_size</item>
+        <item name="android:textColor">@color/dark_grey_text_color</item>
+    </style>
+
+
+    <!--中度灰色字体样式-->
+    <style name="medium_grey_text_style" parent="cage_ww_style">
+        <item name="android:textColor">@color/medium_grey_text_color</item>
+        <item name="android:textSize">@dimen/small_3_text_size</item>
+    </style>
+
+    <!--单行字体样式-->
+    <style name="single_line_text_style" parent="medium_grey_text_style">
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxEms">10</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+
+</resources>

@@ -1,7 +1,6 @@
 package com.luyunfeng.outsource.slotwin.shop;
 
 import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
-import com.luyunfeng.outsource.slotwin.bean.PapimoBouns;
 import com.luyunfeng.outsource.slotwin.bean.ParadisoBouns;
 import com.luyunfeng.outsource.slotwin.bean.PriceType;
 
@@ -18,13 +17,8 @@ import java.util.List;
 
 public class ParadisoShop extends BaseShop {
 
-    public ParadisoShop(String url, String date) {
-        super(url, date);
-    }
-
-    @Override
-    public String getName() {
-        return "paradiso";
+    public ParadisoShop(String id, String name, String url) {
+        super(id, name, url);
     }
 
     @Override

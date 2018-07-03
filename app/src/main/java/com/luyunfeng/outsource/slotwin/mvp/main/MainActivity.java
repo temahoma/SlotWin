@@ -4,9 +4,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.cage.library.utils.data.ListUtils;
+import com.cage.library.utils.list.adapter.CenterTextAdapter;
 import com.luyunfeng.outsource.slotwin.R;
+import com.luyunfeng.outsource.slotwin.bean.Prefecture;
 import com.luyunfeng.outsource.slotwin.mvp.base.BaseMvpActivity;
 import com.luyunfeng.outsource.slotwin.mvp.chart.ChartActivity;
+import com.luyunfeng.outsource.slotwin.view.dialog.DialogFactory;
+import com.luyunfeng.outsource.slotwin.view.dialog.OnSingleSelectedListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * http://papimo.jp/h/00001616/hit/view/717/20180623
@@ -19,8 +27,36 @@ public class MainActivity extends BaseMvpActivity<MainContract.IView, MainContra
     Button buttonPapimo;
     Button buttonParadiso;
 
+    Prefecture current;
+
     @Override
     public void initialized() {
+        prestener.prepareSelections();
+    }
+
+    @Override
+    public void enableSelections(final List<Prefecture> prefectures) {
+
+        if (ListUtils.isEmpty(prefectures)){
+            return;
+        }
+
+        final List<String> list = new ArrayList<>(prefectures.size());
+        for (Prefecture prefecture : prefectures) {
+            list.add(prefecture.getName());
+        }
+
+        buttonPapimo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFactory.show(MainActivity.this, 0, new CenterTextAdapter(list), new OnSingleSelectedListener() {
+                    @Override
+                    public void onItemSelected(int index) {
+                        current = prefectures.get(index);
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -33,7 +69,7 @@ public class MainActivity extends BaseMvpActivity<MainContract.IView, MainContra
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.buttonPapimo:
                 Bundle bundle = new Bundle();
                 bundle.putString("shop", "papimo");
@@ -57,4 +93,5 @@ public class MainActivity extends BaseMvpActivity<MainContract.IView, MainContra
     protected void initPresenter() {
         prestener = new MainPresenter();
     }
+
 }

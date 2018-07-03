@@ -1,24 +1,16 @@
 package com.luyunfeng.outsource.slotwin.network;
 
-import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.NonNull;
 
-import com.luyunfeng.outsource.slotwin.network.callback.BaseNetworkCallback;
-import com.luyunfeng.outsource.slotwin.network.http.HttpRequestImpl;
 import com.luyunfeng.outsource.slotwin.network.param.Params;
 import com.luyunfeng.outsource.slotwin.utils.MessageCode;
 import com.luyunfeng.outsource.slotwin.utils.MessageUtils;
 
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Created by LuYunfeng on 2015/10/12.
@@ -41,7 +33,6 @@ public class Dispatcher {
         return true;
     }
 
-    // 检查更新
     public static void getHtml(final Handler handler, Params params) {
         if (!isNetworkOK(handler)) return;
 

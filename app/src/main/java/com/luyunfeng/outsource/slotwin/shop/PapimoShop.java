@@ -17,13 +17,8 @@ import java.util.List;
 
 public class PapimoShop extends BaseShop {
 
-    public PapimoShop(String url, String date) {
-        super(url, date);
-    }
-
-    @Override
-    public String getName() {
-        return "papimo";
+    public PapimoShop(String id, String name, String url) {
+        super(id, name, url);
     }
 
     @Override

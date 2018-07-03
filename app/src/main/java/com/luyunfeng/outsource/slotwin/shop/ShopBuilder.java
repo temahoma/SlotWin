@@ -6,28 +6,37 @@ package com.luyunfeng.outsource.slotwin.shop;
 
 public class ShopBuilder {
 
-    String date;
+    String website;
+    String url;
+    String name;
 
-    String shop;
-
-    public ShopBuilder setDate(String date) {
-        this.date = date;
+    public ShopBuilder setWebsite(String website) {
+        this.website = website;
         return this;
     }
 
-    public ShopBuilder setShop(String shop) {
-        this.shop = shop;
+    public ShopBuilder setUrl(String url) {
+        this.url = url;
         return this;
     }
 
-    public BaseShop build(){
+    public ShopBuilder setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public BaseShop build() {
         BaseShop baseShop = null;
-        switch (shop){
-            case "papimo":
-                baseShop = new PapimoShop("http://papimo.jp/h/00001616/hit/view/716/"+this.date, this.date);
+        switch (website) {
+            case "PAPIMO-NET":
+                String[] urlParts = url.split("/");
+                String shopId = urlParts[urlParts.length - 1];
+                baseShop = new PapimoShop(shopId, name, url);
                 break;
-            case "paradiso":
-                baseShop = new ParadisoShop("http://www.paradiso.jp/machine_data/sp/10017/detail.php?h=10017&c=c749ef54b188453ad32b67f20af230a1&k=S20&d=1562&o=0", this.date);
+            case "ｵﾘｼﾞﾅﾙｻｲﾄ":
+                urlParts = url.split("/");
+                shopId = urlParts[urlParts.length - 1];
+                baseShop = new ParadisoShop(shopId, name, url);
                 break;
         }
         return baseShop;

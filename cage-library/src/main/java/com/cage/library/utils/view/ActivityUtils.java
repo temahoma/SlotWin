@@ -1,4 +1,4 @@
-package com.cage.library.utils.widget;
+package com.cage.library.utils.view;
 
 import android.app.Activity;
 import android.content.Intent;

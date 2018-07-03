@@ -19,9 +19,21 @@ android {
     }
 }
 
+repositories {
+    mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(":cage-library")
+
+    implementation project(":cage-library")
+
+    implementation(name: rootProject.ext.aarDependencies["sweetsheet"], ext: 'aar')
+
+    implementation rootProject.ext.dependencies["dialogplus"]
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'org.jsoup:jsoup:1.11.3'

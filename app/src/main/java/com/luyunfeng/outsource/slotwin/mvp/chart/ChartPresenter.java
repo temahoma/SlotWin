@@ -114,11 +114,11 @@ public class ChartPresenter extends ChartContract.IPresenter
     }
 
     private String getBonusFilePath(){
-        return "bonus/" + shop.getName() + "/";
+        return "bonus/x/";
     }
 
     private String getBonusFileName(){
-        return shop.date + ".json";
+        return  "xxx.json";
     }
 
     @Override

@@ -4,4 +4,6 @@
     <string name="label_profit">收益(枚)</string>
     <string name="label_big">BIG</string>
     <string name="label_reg">REG</string>
+
+    <string name="select_plz">请选择</string>
 </resources>

@@ -1,9 +1,8 @@
 package com.luyunfeng.outsource.slotwin.mvp.main;
 
-import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
+import com.luyunfeng.outsource.slotwin.bean.Prefecture;
 import com.luyunfeng.outsource.slotwin.mvp.base.BasePresenter;
 import com.luyunfeng.outsource.slotwin.mvp.base.BaseView;
-import com.luyunfeng.outsource.slotwin.shop.BaseShop;
 
 import java.util.List;
 
@@ -14,10 +13,10 @@ import java.util.List;
 public interface MainContract {
 
     interface IView extends BaseView {
-
+        public void enableSelections(List<Prefecture> prefectures);
     }
 
     abstract class IPresenter extends BasePresenter<IView> {
-
+        public abstract void prepareSelections();
     }
 }

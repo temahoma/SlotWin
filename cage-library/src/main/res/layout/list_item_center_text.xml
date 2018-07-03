@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ItemTextCenter"
+    style="@style/normal_list_item_selector_style"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:padding="@dimen/medium_1_space"
+    tools:text="@string/app_name"
+    android:textColor="@color/dark_grey_text_color"
+    android:textSize="@dimen/small_5_text_size"/>
