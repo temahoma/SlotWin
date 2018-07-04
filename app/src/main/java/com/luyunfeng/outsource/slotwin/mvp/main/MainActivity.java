@@ -11,7 +11,7 @@ import com.luyunfeng.outsource.slotwin.R;
 import com.luyunfeng.outsource.slotwin.bean.Prefecture;
 import com.luyunfeng.outsource.slotwin.mvp.base.BaseMvpActivity;
 import com.luyunfeng.outsource.slotwin.mvp.shop.ShopActivity;
-import com.luyunfeng.outsource.slotwin.shop.BaseShop;
+import com.luyunfeng.outsource.slotwin.bean.shop.Shop;
 import com.luyunfeng.outsource.slotwin.view.dialog.DialogFactory;
 import com.luyunfeng.outsource.slotwin.view.dialog.OnSingleSelectedListener;
 
@@ -68,14 +68,14 @@ public class MainActivity extends BaseMvpActivity<MainContract.IView, MainContra
                 }
 
                 final List<String> shops = new ArrayList<>(current.getShops().size());
-                for (BaseShop shop : current.getShops()) {
+                for (Shop shop : current.getShops()) {
                     shops.add(shop.name);
                 }
 
                 DialogFactory.show(MainActivity.this, 0, new CenterTextAdapter(shops), new OnSingleSelectedListener() {
                     @Override
                     public void onItemSelected(int index) {
-                        BaseShop selected = current.getShops().get(index);
+                        Shop selected = current.getShops().get(index);
                         Bundle bundle = new Bundle();
                         bundle.putString("shop_id", selected.getId());
                         bundle.putString("shop_name", selected.getName());

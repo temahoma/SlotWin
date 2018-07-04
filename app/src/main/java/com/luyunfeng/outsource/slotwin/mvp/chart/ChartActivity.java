@@ -24,8 +24,8 @@ import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
 import com.luyunfeng.outsource.slotwin.bean.EmptyValueFormatter;
 import com.luyunfeng.outsource.slotwin.bean.PriceType;
 import com.luyunfeng.outsource.slotwin.mvp.base.BaseMvpActivity;
-import com.luyunfeng.outsource.slotwin.shop.BaseShop;
-import com.luyunfeng.outsource.slotwin.shop.ShopBuilder;
+import com.luyunfeng.outsource.slotwin.bean.shop.Shop;
+import com.luyunfeng.outsource.slotwin.bean.shop.ShopBuilder;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -57,7 +57,7 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
         String date = df.format(now.getTime());
 
         Calendar.getInstance();
-        BaseShop baseShop = new ShopBuilder()
+        Shop baseShop = new ShopBuilder()
                 .setWebsite(shop)
                 .build();
         prestener.setShop(baseShop);

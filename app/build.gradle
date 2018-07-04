@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
 
@@ -38,5 +39,11 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'org.jsoup:jsoup:1.11.3'
     implementation 'com.squareup.okhttp3:okhttp:3.7.0'
+    implementation 'org.greenrobot:greendao:3.2.2'
+}
 
+greendao {
+    schemaVersion 2
+    daoPackage "com.luyunfeng.outsource.slotwin.bean.greendao"
+    targetGenDir 'src/main/java'
 }

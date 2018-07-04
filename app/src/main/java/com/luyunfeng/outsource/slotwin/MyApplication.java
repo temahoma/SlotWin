@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.cage.library.CageLibrary;
+import com.luyunfeng.outsource.slotwin.bean.greendao.DaoManager;
 
 /**
  * Created by luyunfeng on 15/10/26.
@@ -24,5 +25,6 @@ public class MyApplication extends Application
         super.onCreate();
         context = getApplicationContext();
         CageLibrary.init(context);
+        DaoManager.init(context);
     }
 }

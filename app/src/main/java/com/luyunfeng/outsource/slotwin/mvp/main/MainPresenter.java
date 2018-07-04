@@ -3,16 +3,21 @@ package com.luyunfeng.outsource.slotwin.mvp.main;
 import android.os.Handler;
 import android.os.Message;
 
+import com.cage.library.infrastructure.log.Log;
 import com.cage.library.infrastructure.text.StringUtils;
 import com.cage.library.utils.concurrent.LooperRunnable;
+import com.cage.library.utils.data.JsonParser;
+import com.cage.library.utils.data.ListUtils;
 import com.luyunfeng.outsource.slotwin.bean.Prefecture;
+import com.luyunfeng.outsource.slotwin.bean.greendao.DaoManager;
+import com.luyunfeng.outsource.slotwin.bean.greendao.PrefectureTable;
+import com.luyunfeng.outsource.slotwin.bean.shop.Shop;
+import com.luyunfeng.outsource.slotwin.bean.shop.ShopBuilder;
 import com.luyunfeng.outsource.slotwin.decorator.NetworkDecorator;
 import com.luyunfeng.outsource.slotwin.network.Dispatcher;
 import com.luyunfeng.outsource.slotwin.network.HttpUtil;
 import com.luyunfeng.outsource.slotwin.network.Responder;
 import com.luyunfeng.outsource.slotwin.network.param.Params;
-import com.luyunfeng.outsource.slotwin.shop.BaseShop;
-import com.luyunfeng.outsource.slotwin.shop.ShopBuilder;
 import com.luyunfeng.outsource.slotwin.utils.MessageCode;
 
 import org.jsoup.nodes.Document;
@@ -60,21 +65,29 @@ public class MainPresenter extends MainContract.IPresenter
                                         if (prefecture == null) {
                                             prefecture = new Prefecture();
                                             prefecture.setName(name);
+                                            prefecture.setId(prefecture.genId());
                                             prefectures.add(prefecture);
                                         }
-                                        List<BaseShop> shops = prefecture.getShops();
-                                        BaseShop shop = new ShopBuilder()
+                                        List<Shop> shops = prefecture.getShops();
+                                        Shop shop = new ShopBuilder()
+                                                .setPrefectureId(prefecture.getId())
                                                 .setWebsite(website)
                                                 .setName(shopName)
                                                 .setUrl(url)
                                                 .build();
                                         if (shop != null) {
+                                            if (shops == null) {
+                                                shops = new ArrayList<>();
+                                            }
                                             shops.add(shop);
+                                            prefecture.setShops(shops);
                                         }
                                     }
                                 }
                             }
                         }
+
+                        save(prefectures);
 
                         mView.enableSelections(prefectures);
 
@@ -89,6 +102,31 @@ public class MainPresenter extends MainContract.IPresenter
             }
         }
     };
+
+    private void save(final List<Prefecture> prefectures) {
+        if (!ListUtils.isEmpty(prefectures)) {
+            PrefectureTable table = new PrefectureTable();
+            table.insertMultiPrefecture(prefectures);
+//            List<Prefecture> temp1 = table.queryAllPrefecture();
+
+            DaoManager.getInstance().getDaoSession().runInTx(new Runnable() {
+                @Override
+                public void run() {
+                    for (Prefecture prefecture : prefectures) {
+                        List<Shop> shops = prefecture.getShops();
+                        for (Shop shop : shops) {
+                            DaoManager.getInstance().getDaoSession().insertOrReplace(shop);
+                        }
+                    }
+                }
+            });
+
+            String str = JsonParser.getGson().toJson(prefectures);
+            Log.d(str);
+            android.util.Log.d("test", str);
+//            List<Shop> temp2 = DaoManager.getInstance().getDaoSession().loadAll(Shop.class);
+        }
+    }
 
     private Prefecture getPrefecture(List<Prefecture> prefectures, String name) {
         for (Prefecture prefecture : prefectures) {

@@ -1,4 +1,4 @@
-package com.luyunfeng.outsource.slotwin.shop;
+package com.luyunfeng.outsource.slotwin.bean.shop;
 
 import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
 import com.luyunfeng.outsource.slotwin.bean.ParadisoBouns;
@@ -16,7 +16,7 @@ import java.util.List;
  * Created by luyunfeng on 2018/6/24.
  */
 
-public class ParadisoShop extends BaseShop {
+public class ParadisoHtml implements HtmlObject{
 
     @Override
     public List<? extends BaseBouns> parse(Document document) {
@@ -55,7 +55,7 @@ public class ParadisoShop extends BaseShop {
     }
 
     @Override
-    public String getMachineUrl(String machineNumber, Calendar selectedDate) {
+    public String getMachineUrl(String shopUrl, String machineNumber, Calendar selectedDate) {
         return null;
     }
 }

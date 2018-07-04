@@ -1,4 +1,4 @@
-package com.luyunfeng.outsource.slotwin.shop;
+package com.luyunfeng.outsource.slotwin.bean.shop;
 
 import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
 import com.luyunfeng.outsource.slotwin.bean.PapimoBouns;
@@ -18,7 +18,7 @@ import java.util.Locale;
  * Created by luyunfeng on 2018/6/24.
  */
 
-public class PapimoShop extends BaseShop {
+public class PapimoHtml implements HtmlObject {
 
     @Override
     public List<? extends BaseBouns> parse(Document document) {
@@ -63,9 +63,9 @@ public class PapimoShop extends BaseShop {
     }
 
     @Override
-    public String getMachineUrl(String machineNumber, Calendar selectedDate) {
+    public String getMachineUrl(String shopUrl, String machineNumber, Calendar selectedDate) {
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
         String date = df.format(selectedDate.getTime());
-        return url + "/hit/view/" + machineNumber + "/" + date;
+        return shopUrl + "/hit/view/" + machineNumber + "/" + date;
     }
 }

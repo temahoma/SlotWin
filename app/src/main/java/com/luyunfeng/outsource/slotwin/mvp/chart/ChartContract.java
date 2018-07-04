@@ -3,7 +3,7 @@ package com.luyunfeng.outsource.slotwin.mvp.chart;
 import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
 import com.luyunfeng.outsource.slotwin.mvp.base.BasePresenter;
 import com.luyunfeng.outsource.slotwin.mvp.base.BaseView;
-import com.luyunfeng.outsource.slotwin.shop.BaseShop;
+import com.luyunfeng.outsource.slotwin.bean.shop.Shop;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public interface ChartContract {
 
     abstract class IPresenter extends BasePresenter<IView> {
 
-        public abstract void setShop(BaseShop shop);
+        public abstract void setShop(Shop shop);
 
         public abstract void readHtml();
     }

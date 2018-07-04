@@ -1,4 +1,4 @@
-package com.luyunfeng.outsource.slotwin.shop;
+package com.luyunfeng.outsource.slotwin.bean.shop;
 
 /**
  * Created by luyunfeng on 2018/6/30.
@@ -9,6 +9,7 @@ public class ShopBuilder {
     String website;
     String url;
     String name;
+    Long prefectureId;
 
     public ShopBuilder setWebsite(String website) {
         this.website = website;
@@ -25,27 +26,40 @@ public class ShopBuilder {
         return this;
     }
 
-    public BaseShop build() {
-        BaseShop baseShop = null;
+    public ShopBuilder setPrefectureId(Long prefectureId) {
+        this.prefectureId = prefectureId;
+        return this;
+    }
+
+    public Shop build() {
+        HtmlObject htmlObject = null;
         String shopId = null;
+        Shop shop;
         switch (website) {
             case "PAPIMO-NET":
+                shop = new Shop();
                 String[] urlParts = url.split("/");
                 shopId = urlParts[urlParts.length - 1];
-                baseShop = new PapimoShop();
+                htmlObject = new PapimoHtml();
                 break;
             case "ｵﾘｼﾞﾅﾙｻｲﾄ":
+                shop = new Shop();
                 urlParts = url.split("/");
                 shopId = urlParts[urlParts.length - 1];
-                baseShop = new ParadisoShop();
+                htmlObject = new ParadisoHtml();
+                break;
+            default:
+                shop = null;
                 break;
         }
-        if (baseShop != null){
-            baseShop.setId(shopId);
-            baseShop.setName(name);
-            baseShop.setUrl(url);
-            baseShop.setWebsite(website);
+        if (shop != null) {
+            shop.setId(shopId);
+            shop.setName(name);
+            shop.setUrl(url);
+            shop.setWebsite(website);
+            shop.setHtmlObject(htmlObject);
+            shop.setPrefectureId(prefectureId);
         }
-        return baseShop;
+        return shop;
     }
 }

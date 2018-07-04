@@ -12,8 +12,8 @@ import com.cage.library.infrastructure.text.StringUtils;
 import com.luyunfeng.outsource.slotwin.R;
 import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
 import com.luyunfeng.outsource.slotwin.mvp.base.BaseMvpActivity;
-import com.luyunfeng.outsource.slotwin.shop.BaseShop;
-import com.luyunfeng.outsource.slotwin.shop.ShopBuilder;
+import com.luyunfeng.outsource.slotwin.bean.shop.Shop;
+import com.luyunfeng.outsource.slotwin.bean.shop.ShopBuilder;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -34,7 +34,7 @@ public class ShopActivity extends BaseMvpActivity<ShopContract.IView, ShopContra
     EditText et_machine_number;
     Button btn_search;
 
-    BaseShop baseShop;
+    Shop shop;
 
     Calendar selectedDate = Calendar.getInstance();
     Calendar maxDate = Calendar.getInstance();
@@ -50,7 +50,7 @@ public class ShopActivity extends BaseMvpActivity<ShopContract.IView, ShopContra
         String shop_url = bundle.getString("shop_url");
         String shop_website = bundle.getString("shop_website");
 
-        baseShop = new ShopBuilder()
+        shop = new ShopBuilder()
                 .setWebsite(shop_website)
                 .setName(shop_name)
                 .setUrl(shop_url)
@@ -62,7 +62,7 @@ public class ShopActivity extends BaseMvpActivity<ShopContract.IView, ShopContra
 
         displayDate(selectedDate);
 
-        prestener.setShop(baseShop);
+        prestener.setShop(shop);
     }
 
     private void displayDate(Calendar selectedDate) {

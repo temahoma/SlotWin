@@ -14,7 +14,7 @@ import com.luyunfeng.outsource.slotwin.network.Dispatcher;
 import com.luyunfeng.outsource.slotwin.network.HttpUtil;
 import com.luyunfeng.outsource.slotwin.network.Responder;
 import com.luyunfeng.outsource.slotwin.network.param.Params;
-import com.luyunfeng.outsource.slotwin.shop.BaseShop;
+import com.luyunfeng.outsource.slotwin.bean.shop.Shop;
 import com.luyunfeng.outsource.slotwin.utils.Config;
 import com.luyunfeng.outsource.slotwin.utils.MessageCode;
 
@@ -29,7 +29,7 @@ import java.util.Locale;
 public class ShopPresenter extends ShopContract.IPresenter
         implements Responder.OnResponseListener {
 
-    private BaseShop shop;
+    private Shop shop;
 
     private String machineNumber;
     private Calendar selectedDate;
@@ -44,7 +44,7 @@ public class ShopPresenter extends ShopContract.IPresenter
             if (msg.what == MessageCode.MESSAGE_HTML) {
                 if (HttpUtil.ok(msg.arg1)) {
                     try {
-                        List<? extends BaseBouns> bonusList = shop.parse((Document) msg.obj);
+                        List<? extends BaseBouns> bonusList = shop.getHtmlObject().parse((Document) msg.obj);
 
                         if (ListUtils.isEmpty(bonusList)) {
                             mView.empty();
@@ -86,7 +86,7 @@ public class ShopPresenter extends ShopContract.IPresenter
 
     private void readFromNet() {
         params.clear();
-        params.put("url", shop.getMachineUrl(machineNumber, selectedDate));
+        params.put("url", shop.getHtmlObject().getMachineUrl(shop.getUrl(), machineNumber, selectedDate));
         new LooperRunnable() {
             @Override
             public void runInLooper() {
@@ -96,7 +96,7 @@ public class ShopPresenter extends ShopContract.IPresenter
     }
 
     @Override
-    public void setShop(BaseShop shop) {
+    public void setShop(Shop shop) {
         this.shop = shop;
     }
 
@@ -105,7 +105,6 @@ public class ShopPresenter extends ShopContract.IPresenter
         this.machineNumber = machineNumber;
         this.selectedDate = selectedDate;
     }
-
 
     private String getBonusFilePath() {
         return Config.DATA_DIR + "bonus/" + machineNumber + "/";
@@ -127,5 +126,4 @@ public class ShopPresenter extends ShopContract.IPresenter
         decorator.onDestroy();
         super.onDetach();
     }
-
 }

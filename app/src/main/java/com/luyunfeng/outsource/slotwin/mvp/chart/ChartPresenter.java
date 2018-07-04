@@ -16,7 +16,7 @@ import com.luyunfeng.outsource.slotwin.network.Dispatcher;
 import com.luyunfeng.outsource.slotwin.network.HttpUtil;
 import com.luyunfeng.outsource.slotwin.network.Responder;
 import com.luyunfeng.outsource.slotwin.network.param.Params;
-import com.luyunfeng.outsource.slotwin.shop.BaseShop;
+import com.luyunfeng.outsource.slotwin.bean.shop.Shop;
 import com.luyunfeng.outsource.slotwin.utils.Config;
 import com.luyunfeng.outsource.slotwin.utils.MessageCode;
 
@@ -29,7 +29,7 @@ import java.util.List;
 public class ChartPresenter extends ChartContract.IPresenter
         implements Responder.OnResponseListener {
 
-    private BaseShop shop;
+    private Shop shop;
 
     private NetworkDecorator decorator;
 
@@ -41,7 +41,7 @@ public class ChartPresenter extends ChartContract.IPresenter
             if (msg.what == MessageCode.MESSAGE_HTML) {
                 if (HttpUtil.ok(msg.arg1)) {
                     try {
-                        List<? extends BaseBouns> bonusList =  shop.parse((Document) msg.obj);
+                        List<? extends BaseBouns> bonusList =  shop.getHtmlObject().parse((Document) msg.obj);
 
                         if (ListUtils.isEmpty(bonusList)){
                             mView.empty();
@@ -122,7 +122,7 @@ public class ChartPresenter extends ChartContract.IPresenter
     }
 
     @Override
-    public void setShop(BaseShop shop) {
+    public void setShop(Shop shop) {
         this.shop = shop;
     }
 

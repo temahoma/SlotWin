@@ -3,6 +3,7 @@ package com.cage.library;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
+import com.cage.library.infrastructure.log.Log;
 import com.cage.library.infrastructure.resource.ResourceHelper;
 import com.cage.library.infrastructure.tips.Toast;
 
@@ -23,5 +24,6 @@ public class CageLibrary {
         CageLibrary.appContext = appContext;
         ResourceHelper.init(appContext);
         Toast.init(appContext);
+        Log.init(true);
     }
 }
