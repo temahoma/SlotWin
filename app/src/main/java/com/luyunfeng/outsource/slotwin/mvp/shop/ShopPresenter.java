@@ -2,14 +2,13 @@ package com.luyunfeng.outsource.slotwin.mvp.shop;
 
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
+import com.cage.library.infrastructure.log.Log;
 import com.cage.library.utils.concurrent.LooperRunnable;
 import com.cage.library.utils.data.JsonParser;
 import com.cage.library.utils.data.ListUtils;
 import com.cage.library.utils.io.FileUtils;
-import com.google.gson.reflect.TypeToken;
-import com.luyunfeng.outsource.slotwin.bean.PapimoBouns;
+import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
 import com.luyunfeng.outsource.slotwin.decorator.NetworkDecorator;
 import com.luyunfeng.outsource.slotwin.network.Dispatcher;
 import com.luyunfeng.outsource.slotwin.network.HttpUtil;
@@ -20,16 +19,20 @@ import com.luyunfeng.outsource.slotwin.utils.Config;
 import com.luyunfeng.outsource.slotwin.utils.MessageCode;
 
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
-import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 
 public class ShopPresenter extends ShopContract.IPresenter
         implements Responder.OnResponseListener {
 
     private BaseShop shop;
+
+    private String machineNumber;
+    private Calendar selectedDate;
 
     private NetworkDecorator decorator;
 
@@ -41,12 +44,16 @@ public class ShopPresenter extends ShopContract.IPresenter
             if (msg.what == MessageCode.MESSAGE_HTML) {
                 if (HttpUtil.ok(msg.arg1)) {
                     try {
+                        List<? extends BaseBouns> bonusList = shop.parse((Document) msg.obj);
 
-                        Document document = (Document) msg.obj;
-                        Element body = document.body();
-
-                        mView.empty();
-
+                        if (ListUtils.isEmpty(bonusList)) {
+                            mView.empty();
+                        } else {
+                            String json = JsonParser.getGson().toJson(bonusList);
+                            Log.d(json);
+                            FileUtils.writeTextData(getBonusFilePath(), getBonusFileName(), json);
+                            mView.display(bonusList);
+                        }
                     } catch (Throwable throwable) {
                         mView.empty();
                     }
@@ -72,15 +79,14 @@ public class ShopPresenter extends ShopContract.IPresenter
     }
 
     @Override
-    public void readHtml() {
+    public void readData() {
         readFromNet();
 //        readFromFile();
     }
 
-    private void readFromNet(){
+    private void readFromNet() {
         params.clear();
-        params.put("url", shop.url);
-
+        params.put("url", shop.getMachineUrl(machineNumber, selectedDate));
         new LooperRunnable() {
             @Override
             public void runInLooper() {
@@ -92,6 +98,23 @@ public class ShopPresenter extends ShopContract.IPresenter
     @Override
     public void setShop(BaseShop shop) {
         this.shop = shop;
+    }
+
+    @Override
+    public void setTarget(String machineNumber, Calendar selectedDate) {
+        this.machineNumber = machineNumber;
+        this.selectedDate = selectedDate;
+    }
+
+
+    private String getBonusFilePath() {
+        return Config.DATA_DIR + "bonus/" + machineNumber + "/";
+    }
+
+    private String getBonusFileName() {
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+        String date = df.format(selectedDate.getTime());
+        return date + ".json";
     }
 
     @Override

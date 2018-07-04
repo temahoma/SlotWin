@@ -9,6 +9,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -51,5 +52,10 @@ public class ParadisoShop extends BaseShop {
             bonusList.add(bouns);
         }
         return bonusList;
+    }
+
+    @Override
+    public String getMachineUrl(String machineNumber, Calendar selectedDate) {
+        return null;
     }
 }

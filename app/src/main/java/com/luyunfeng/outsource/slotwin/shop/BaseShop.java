@@ -4,6 +4,7 @@ import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
 
 import org.jsoup.nodes.Document;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -53,4 +54,6 @@ public abstract class BaseShop {
     }
 
     public abstract List<? extends BaseBouns> parse(Document document);
+
+    public abstract String getMachineUrl(String machineNumber, Calendar selectedDate);
 }

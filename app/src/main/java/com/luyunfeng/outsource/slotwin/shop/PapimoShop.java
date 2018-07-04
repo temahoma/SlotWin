@@ -8,8 +8,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by luyunfeng on 2018/6/24.
@@ -57,5 +60,12 @@ public class PapimoShop extends BaseShop {
             bonusList.add(bouns);
         }
         return bonusList;
+    }
+
+    @Override
+    public String getMachineUrl(String machineNumber, Calendar selectedDate) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+        String date = df.format(selectedDate.getTime());
+        return url + "/hit/view/" + machineNumber + "/" + date;
     }
 }

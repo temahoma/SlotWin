@@ -5,6 +5,7 @@ import com.luyunfeng.outsource.slotwin.mvp.base.BasePresenter;
 import com.luyunfeng.outsource.slotwin.mvp.base.BaseView;
 import com.luyunfeng.outsource.slotwin.shop.BaseShop;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -22,6 +23,8 @@ public interface ShopContract {
 
         public abstract void setShop(BaseShop shop);
 
-        public abstract void readHtml();
+        public abstract void setTarget(String machineNumber, Calendar selectedDate);
+
+        public abstract void readData();
     }
 }

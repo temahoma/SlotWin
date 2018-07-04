@@ -9,6 +9,7 @@ import java.io.File;
  */
 
 public class Config {
-    public final static String DATA_DIR = MyApplication.getContext().getFilesDir().getAbsolutePath() + File.separator
+    public final static String DATA_DIR
+            = MyApplication.getContext().getFilesDir().getAbsolutePath() + File.separator
             + "slotwin" + File.separator;
 }
