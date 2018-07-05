@@ -4,10 +4,13 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.cage.library.infrastructure.log.Log;
+import com.cage.library.infrastructure.resource.ResourceHelper;
 import com.cage.library.infrastructure.text.StringUtils;
 import com.cage.library.utils.concurrent.LooperRunnable;
 import com.cage.library.utils.data.JsonParser;
 import com.cage.library.utils.data.ListUtils;
+import com.cage.library.utils.io.FileUtils;
+import com.google.gson.reflect.TypeToken;
 import com.luyunfeng.outsource.slotwin.bean.Prefecture;
 import com.luyunfeng.outsource.slotwin.bean.greendao.DaoManager;
 import com.luyunfeng.outsource.slotwin.bean.greendao.PrefectureTable;
@@ -24,6 +27,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -162,8 +167,8 @@ public class MainPresenter extends MainContract.IPresenter
 
     @Override
     public void prepareSelections() {
-        readFromNet();
-//        readFromFile();
+//        readFromNet();
+        readFromFile();
     }
 
     private void readFromNet() {
@@ -177,4 +182,16 @@ public class MainPresenter extends MainContract.IPresenter
         };
     }
 
+    private void readFromFile() {
+        InputStream input = ResourceHelper.openAsset("json/prefecture.json");
+        try {
+            String jsonString = FileUtils.readTextData(input);
+            List<Prefecture> list = new JsonParser<Prefecture>()
+                    .setType(new TypeToken<List<Prefecture>>(){})
+                    .parseListPrue(jsonString);
+            mView.enableSelections(list);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

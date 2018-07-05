@@ -22,7 +22,7 @@ public class Shop {
     public String url;
 
     @Transient
-    public HtmlObject htmlObject;
+    public transient HtmlObject htmlObject;
 
     @Generated(hash = 1113593178)
     public Shop(String id, Long prefectureId, String name, String website,

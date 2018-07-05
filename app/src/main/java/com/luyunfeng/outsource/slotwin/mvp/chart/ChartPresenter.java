@@ -9,8 +9,8 @@ import com.cage.library.utils.data.JsonParser;
 import com.cage.library.utils.data.ListUtils;
 import com.cage.library.utils.io.FileUtils;
 import com.google.gson.reflect.TypeToken;
-import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
-import com.luyunfeng.outsource.slotwin.bean.PapimoBouns;
+import com.luyunfeng.outsource.slotwin.bean.BaseBonus;
+import com.luyunfeng.outsource.slotwin.bean.PapimoBonus;
 import com.luyunfeng.outsource.slotwin.decorator.NetworkDecorator;
 import com.luyunfeng.outsource.slotwin.network.Dispatcher;
 import com.luyunfeng.outsource.slotwin.network.HttpUtil;
@@ -41,7 +41,7 @@ public class ChartPresenter extends ChartContract.IPresenter
             if (msg.what == MessageCode.MESSAGE_HTML) {
                 if (HttpUtil.ok(msg.arg1)) {
                     try {
-                        List<? extends BaseBouns> bonusList =  shop.getHtmlObject().parse((Document) msg.obj);
+                        List<? extends BaseBonus> bonusList =  shop.getHtmlObject().parse((Document) msg.obj);
 
                         if (ListUtils.isEmpty(bonusList)){
                             mView.empty();
@@ -102,8 +102,8 @@ public class ChartPresenter extends ChartContract.IPresenter
             e.printStackTrace();
         }
 
-        List<PapimoBouns> bonusList = new JsonParser<PapimoBouns>()
-                .setType(new TypeToken<List<PapimoBouns>>() {
+        List<PapimoBonus> bonusList = new JsonParser<PapimoBonus>()
+                .setType(new TypeToken<List<PapimoBonus>>() {
                 })
                 .parseListPrue(json);
         if (ListUtils.isEmpty(bonusList)){

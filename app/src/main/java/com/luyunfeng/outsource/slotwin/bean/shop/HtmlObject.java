@@ -1,6 +1,6 @@
 package com.luyunfeng.outsource.slotwin.bean.shop;
 
-import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
+import com.luyunfeng.outsource.slotwin.bean.BaseBonus;
 
 import org.jsoup.nodes.Document;
 
@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface HtmlObject {
 
-    List<? extends BaseBouns> parse(Document document);
+    List<BaseBonus> parse(Document document);
 
     String getMachineUrl(String shopUrl, String machineNumber, Calendar selectedDate);
 }

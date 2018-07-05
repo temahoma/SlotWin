@@ -2,6 +2,8 @@ package com.luyunfeng.outsource.slotwin.mvp.shop;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -9,8 +11,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.cage.library.infrastructure.text.StringUtils;
+import com.cage.library.utils.list.adapter.BaseViewHolder;
+import com.cage.library.utils.list.adapter.CageAdapter;
+import com.luyunfeng.outsource.slotwin.MyApplication;
 import com.luyunfeng.outsource.slotwin.R;
-import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
+import com.luyunfeng.outsource.slotwin.bean.BaseBonus;
 import com.luyunfeng.outsource.slotwin.mvp.base.BaseMvpActivity;
 import com.luyunfeng.outsource.slotwin.bean.shop.Shop;
 import com.luyunfeng.outsource.slotwin.bean.shop.ShopBuilder;
@@ -33,6 +38,7 @@ public class ShopActivity extends BaseMvpActivity<ShopContract.IView, ShopContra
     TextView tv_date;
     EditText et_machine_number;
     Button btn_search;
+    RecyclerView rv_record;
 
     Shop shop;
 
@@ -54,6 +60,7 @@ public class ShopActivity extends BaseMvpActivity<ShopContract.IView, ShopContra
                 .setWebsite(shop_website)
                 .setName(shop_name)
                 .setUrl(shop_url)
+                .setNeedHtmlObject(true)
                 .build();
 
         minDate.add(Calendar.MONTH, -1);
@@ -72,8 +79,17 @@ public class ShopActivity extends BaseMvpActivity<ShopContract.IView, ShopContra
     }
 
     @Override
-    public void display(List<? extends BaseBouns> bounsList) {
-
+    public void display(List<BaseBonus> bounsList) {
+        rv_record.setLayoutManager(new LinearLayoutManager(MyApplication.getContext()));
+        rv_record.setAdapter(new CageAdapter<BaseBonus>(R.layout.list_item_record, bounsList) {
+            @Override
+            protected void convert(BaseViewHolder holder, BaseBonus entity) {
+                holder.setText(R.id.tv_round, entity.index);
+                holder.setText(R.id.tv_count, entity.count);
+                holder.setText(R.id.tv_bonus, entity.bonus);
+                holder.setText(R.id.tv_type, entity.type);
+            }
+        });
     }
 
     @Override
@@ -89,6 +105,7 @@ public class ShopActivity extends BaseMvpActivity<ShopContract.IView, ShopContra
         tv_date = findViewById(R.id.tv_date);
         et_machine_number = findViewById(R.id.et_machine_number);
         btn_search = findViewById(R.id.btn_search);
+        rv_record = findViewById(R.id.rv_record);
 
         btn_date.setOnClickListener(this);
         btn_search.setOnClickListener(this);

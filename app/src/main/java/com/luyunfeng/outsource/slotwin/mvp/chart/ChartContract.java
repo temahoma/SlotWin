@@ -1,6 +1,6 @@
 package com.luyunfeng.outsource.slotwin.mvp.chart;
 
-import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
+import com.luyunfeng.outsource.slotwin.bean.BaseBonus;
 import com.luyunfeng.outsource.slotwin.mvp.base.BasePresenter;
 import com.luyunfeng.outsource.slotwin.mvp.base.BaseView;
 import com.luyunfeng.outsource.slotwin.bean.shop.Shop;
@@ -14,7 +14,7 @@ import java.util.List;
 public interface ChartContract {
 
     interface IView extends BaseView {
-        void display(List<? extends BaseBouns> bounsList);
+        void display(List<? extends BaseBonus> bounsList);
         void empty();
     }
 

@@ -7,7 +7,6 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Transient;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +21,7 @@ public class Prefecture {
     String name;
 
     @Transient
-    List<Shop> shops = new ArrayList<>();
+    List<Shop> shops;
 
     @Generated(hash = 515860450)
     public Prefecture(Long id, String name) {

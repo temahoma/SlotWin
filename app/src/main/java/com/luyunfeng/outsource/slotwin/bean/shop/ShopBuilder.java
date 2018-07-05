@@ -10,6 +10,7 @@ public class ShopBuilder {
     String url;
     String name;
     Long prefectureId;
+    boolean needHtmlObject;
 
     public ShopBuilder setWebsite(String website) {
         this.website = website;
@@ -31,6 +32,11 @@ public class ShopBuilder {
         return this;
     }
 
+    public ShopBuilder setNeedHtmlObject(boolean needHtmlObject) {
+        this.needHtmlObject = needHtmlObject;
+        return this;
+    }
+
     public Shop build() {
         HtmlObject htmlObject = null;
         String shopId = null;
@@ -40,13 +46,17 @@ public class ShopBuilder {
                 shop = new Shop();
                 String[] urlParts = url.split("/");
                 shopId = urlParts[urlParts.length - 1];
-                htmlObject = new PapimoHtml();
+                if (needHtmlObject){
+                    htmlObject = new PapimoHtml();
+                }
                 break;
             case "ｵﾘｼﾞﾅﾙｻｲﾄ":
                 shop = new Shop();
                 urlParts = url.split("/");
                 shopId = urlParts[urlParts.length - 1];
-                htmlObject = new ParadisoHtml();
+                if (needHtmlObject){
+                    htmlObject = new ParadisoHtml();
+                }
                 break;
             default:
                 shop = null;

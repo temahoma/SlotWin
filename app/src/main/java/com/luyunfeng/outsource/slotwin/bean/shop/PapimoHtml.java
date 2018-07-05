@@ -1,7 +1,7 @@
 package com.luyunfeng.outsource.slotwin.bean.shop;
 
-import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
-import com.luyunfeng.outsource.slotwin.bean.PapimoBouns;
+import com.luyunfeng.outsource.slotwin.bean.BaseBonus;
+import com.luyunfeng.outsource.slotwin.bean.PapimoBonus;
 import com.luyunfeng.outsource.slotwin.bean.PriceType;
 
 import org.jsoup.nodes.Document;
@@ -21,8 +21,8 @@ import java.util.Locale;
 public class PapimoHtml implements HtmlObject {
 
     @Override
-    public List<? extends BaseBouns> parse(Document document) {
-        List<BaseBouns> bonusList = new ArrayList<>();
+    public List<BaseBonus> parse(Document document) {
+        List<BaseBonus> bonusList = new ArrayList<>();
         Element body = document.body();
         Element history = body.getElementById("tab-history-index");
         Elements elements = history.getElementsByTag("tbody");
@@ -50,7 +50,7 @@ public class PapimoHtml implements HtmlObject {
             Element out = record.getElementsByClass("out").get(0);
             Integer bonus = Integer.parseInt(out.html());
 
-            BaseBouns bouns = new PapimoBouns(bonusList.size() + 1, count, bonus, bonusType);
+            BaseBonus bouns = new PapimoBonus(bonusList.size() + 1, count, bonus, bonusType);
             int accumulateProfit = bouns.getProfit(count, bonus);
             if (bonusList.size() > 0) {
                 accumulateProfit += bonusList.get(bonusList.size() - 1).accumulateProfit;

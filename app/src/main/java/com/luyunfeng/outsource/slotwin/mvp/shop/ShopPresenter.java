@@ -8,7 +8,7 @@ import com.cage.library.utils.concurrent.LooperRunnable;
 import com.cage.library.utils.data.JsonParser;
 import com.cage.library.utils.data.ListUtils;
 import com.cage.library.utils.io.FileUtils;
-import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
+import com.luyunfeng.outsource.slotwin.bean.BaseBonus;
 import com.luyunfeng.outsource.slotwin.decorator.NetworkDecorator;
 import com.luyunfeng.outsource.slotwin.network.Dispatcher;
 import com.luyunfeng.outsource.slotwin.network.HttpUtil;
@@ -38,13 +38,14 @@ public class ShopPresenter extends ShopContract.IPresenter
 
     private Params params = new Params();
 
+    // todo alive
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == MessageCode.MESSAGE_HTML) {
                 if (HttpUtil.ok(msg.arg1)) {
                     try {
-                        List<? extends BaseBouns> bonusList = shop.getHtmlObject().parse((Document) msg.obj);
+                        List<BaseBonus> bonusList = shop.getHtmlObject().parse((Document) msg.obj);
 
                         if (ListUtils.isEmpty(bonusList)) {
                             mView.empty();
@@ -55,6 +56,7 @@ public class ShopPresenter extends ShopContract.IPresenter
                             mView.display(bonusList);
                         }
                     } catch (Throwable throwable) {
+                        Log.printStackTrace(throwable);
                         mView.empty();
                     }
                 } else {

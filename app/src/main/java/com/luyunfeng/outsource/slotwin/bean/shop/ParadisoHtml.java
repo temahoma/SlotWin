@@ -1,7 +1,7 @@
 package com.luyunfeng.outsource.slotwin.bean.shop;
 
-import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
-import com.luyunfeng.outsource.slotwin.bean.ParadisoBouns;
+import com.luyunfeng.outsource.slotwin.bean.BaseBonus;
+import com.luyunfeng.outsource.slotwin.bean.ParadisoBonus;
 import com.luyunfeng.outsource.slotwin.bean.PriceType;
 
 import org.jsoup.nodes.Document;
@@ -19,8 +19,8 @@ import java.util.List;
 public class ParadisoHtml implements HtmlObject{
 
     @Override
-    public List<? extends BaseBouns> parse(Document document) {
-        List<BaseBouns> bonusList = new ArrayList<>();
+    public List<BaseBonus> parse(Document document) {
+        List<BaseBonus> bonusList = new ArrayList<>();
         Element body = document.body();
         // data_box 含多天
         Element div = body.getElementsByClass("data_box").get(0);
@@ -42,7 +42,7 @@ public class ParadisoHtml implements HtmlObject{
             countStr = countStr.substring(0, countStr.length() - 1);
             Integer count = Integer.parseInt(countStr);
 
-            BaseBouns bouns = new ParadisoBouns(bonusList.size() + 1, count, bonus, bonusType);
+            BaseBonus bouns = new ParadisoBonus(bonusList.size() + 1, count, bonus, bonusType);
             int accumulateProfit = bouns.getProfit(count, bonus);
             if (bonusList.size() > 0) {
                 accumulateProfit += bonusList.get(bonusList.size() - 1).accumulateProfit;

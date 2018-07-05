@@ -1,13 +1,10 @@
 package com.luyunfeng.outsource.slotwin.bean;
 
-import android.support.annotation.IntDef;
-import android.support.annotation.StringDef;
-
 /**
  * Created by luyunfeng on 2018/6/16.
  */
 
-public abstract class BaseBouns {
+public abstract class BaseBonus {
     public int index;
     public int count;
     public int bonus;
@@ -17,11 +14,11 @@ public abstract class BaseBouns {
 
     public abstract int getProfit(int count, int bonus);
 
-    public BaseBouns(){
+    public BaseBonus(){
 
     }
 
-    public BaseBouns(int index, int count, int bonus, @PriceType String type) {
+    public BaseBonus(int index, int count, int bonus, @PriceType String type) {
         this.index = index;
         this.count = count;
         this.bonus = bonus;

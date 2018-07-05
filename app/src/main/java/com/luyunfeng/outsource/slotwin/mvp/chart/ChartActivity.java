@@ -20,7 +20,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.luyunfeng.outsource.slotwin.CountValueFormatter;
 import com.luyunfeng.outsource.slotwin.ProfitValueFormatter;
 import com.luyunfeng.outsource.slotwin.R;
-import com.luyunfeng.outsource.slotwin.bean.BaseBouns;
+import com.luyunfeng.outsource.slotwin.bean.BaseBonus;
 import com.luyunfeng.outsource.slotwin.bean.EmptyValueFormatter;
 import com.luyunfeng.outsource.slotwin.bean.PriceType;
 import com.luyunfeng.outsource.slotwin.mvp.base.BaseMvpActivity;
@@ -65,7 +65,7 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
     }
 
     @Override
-    public void display(List<? extends BaseBouns> bounsList) {
+    public void display(List<? extends BaseBonus> bounsList) {
 
         CombinedData combinedData = new CombinedData();
 
@@ -134,11 +134,11 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
         chart.invalidate();
     }
 
-    LineData getLineData(List<? extends BaseBouns> bounsList, int lineOffset, float factor) {
+    LineData getLineData(List<? extends BaseBonus> bounsList, int lineOffset, float factor) {
 
         List<Entry> entries = new ArrayList<>();
 
-        for (BaseBouns bouns : bounsList) {
+        for (BaseBonus bouns : bounsList) {
             Entry entry = new Entry(
                     bouns.index,
                     (bouns.accumulateProfit + lineOffset) * factor + 1,
@@ -160,13 +160,13 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
         return lineData;
     }
 
-    BarData getBarData(List<? extends BaseBouns> bounsList) {
+    BarData getBarData(List<? extends BaseBonus> bounsList) {
 
         float factor = getBarFactor(bounsList);
 
         List<BarEntry> bigPriceEntries = new ArrayList<>();
         List<BarEntry> regPriceEntries = new ArrayList<>();
-        for (BaseBouns bouns : bounsList) {
+        for (BaseBonus bouns : bounsList) {
             BarEntry barEntry = new BarEntry(
                     bouns.index,
                     bouns.count * factor,
@@ -205,10 +205,10 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
         return barData;
     }
 
-    float getBarFactor(List<? extends BaseBouns> counts) {
-        int maxCount = Collections.max(counts, new Comparator<BaseBouns>() {
+    float getBarFactor(List<? extends BaseBonus> counts) {
+        int maxCount = Collections.max(counts, new Comparator<BaseBonus>() {
             @Override
-            public int compare(BaseBouns o1, BaseBouns o2) {
+            public int compare(BaseBonus o1, BaseBonus o2) {
                 return Integer.compare(o1.count, o2.count);
             }
         }).count;
@@ -216,11 +216,11 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
         return factor;
     }
 
-    int getLineOffset(List<? extends BaseBouns> counts) {
+    int getLineOffset(List<? extends BaseBonus> counts) {
         int offset = 0;
-        BaseBouns minBonus = Collections.min(counts, new Comparator<BaseBouns>() {
+        BaseBonus minBonus = Collections.min(counts, new Comparator<BaseBonus>() {
             @Override
-            public int compare(BaseBouns o1, BaseBouns o2) {
+            public int compare(BaseBonus o1, BaseBonus o2) {
                 return Integer.compare(o1.accumulateProfit, o2.accumulateProfit);
             }
         });
@@ -230,10 +230,10 @@ public class ChartActivity extends BaseMvpActivity<ChartContract.IView, ChartCon
         return offset;
     }
 
-    float getLineFactor(List<? extends BaseBouns> counts, int lineOffset) {
-        BaseBouns maxBonus = Collections.max(counts, new Comparator<BaseBouns>() {
+    float getLineFactor(List<? extends BaseBonus> counts, int lineOffset) {
+        BaseBonus maxBonus = Collections.max(counts, new Comparator<BaseBonus>() {
             @Override
-            public int compare(BaseBouns o1, BaseBouns o2) {
+            public int compare(BaseBonus o1, BaseBonus o2) {
                 return Integer.compare(o1.accumulateProfit, o2.accumulateProfit);
             }
         });

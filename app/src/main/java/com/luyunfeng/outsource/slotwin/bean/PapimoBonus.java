@@ -4,9 +4,9 @@ package com.luyunfeng.outsource.slotwin.bean;
  * Created by luyunfeng on 2018/6/16.
  */
 
-public class ParadisoBouns extends BaseBouns{
+public class PapimoBonus extends BaseBonus {
 
-    public ParadisoBouns(int index, int count, int bonus, String type) {
+    public PapimoBonus(int index, int count, int bonus, String type) {
         super(index, count, bonus, type);
     }
 
