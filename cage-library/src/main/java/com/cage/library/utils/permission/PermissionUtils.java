@@ -12,6 +12,7 @@ import android.support.annotation.RequiresApi;
 
 import com.cage.library.CageLibrary;
 import com.cage.library.infrastructure.resource.ResourceHelper;
+import com.cage.library.utils.app.AppUtils;
 import com.cage.library.utils.device.DeviceUtils;
 
 import java.util.HashMap;
@@ -113,15 +114,7 @@ public class PermissionUtils {
 
     public static void settingDialog(Activity activity, String text){
 
-        PackageManager packageManager = CageLibrary.getAppContext().getPackageManager();
-        String appName = "应用";
-        try {
-            PackageInfo packageInfo = packageManager.getPackageInfo(
-                    CageLibrary.getAppContext().getPackageName(), 0);
-            appName = ResourceHelper.getString(packageInfo.applicationInfo.labelRes);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+        String appName = AppUtils.getHostAppName();
 
         new AppSettingsDialog.Builder(activity, appName + "需要请求 " + text + " 权限，是否打开设置页面?")
                 .setTitle("权限申请")

@@ -10,15 +10,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.cage.library.infrastructure.SPUtils;
 import com.cage.library.infrastructure.text.StringUtils;
 import com.cage.library.utils.list.adapter.BaseViewHolder;
 import com.cage.library.utils.list.adapter.CageAdapter;
 import com.luyunfeng.outsource.slotwin.MyApplication;
 import com.luyunfeng.outsource.slotwin.R;
 import com.luyunfeng.outsource.slotwin.bean.BaseBonus;
-import com.luyunfeng.outsource.slotwin.mvp.base.BaseMvpActivity;
 import com.luyunfeng.outsource.slotwin.bean.shop.Shop;
 import com.luyunfeng.outsource.slotwin.bean.shop.ShopBuilder;
+import com.luyunfeng.outsource.slotwin.mvp.base.BaseMvpActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -70,6 +71,8 @@ public class ShopActivity extends BaseMvpActivity<ShopContract.IView, ShopContra
         displayDate(selectedDate);
 
         prestener.setShop(shop);
+
+        SPUtils.putString("shop_id", shop_id);
     }
 
     private void displayDate(Calendar selectedDate) {

@@ -4,16 +4,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.cage.library.infrastructure.SPUtils;
+import com.cage.library.infrastructure.text.StringUtils;
 import com.cage.library.utils.data.ListUtils;
 import com.cage.library.utils.list.adapter.CenterTextAdapter;
 import com.cage.library.utils.view.ActivityUtils;
 import com.luyunfeng.outsource.slotwin.R;
 import com.luyunfeng.outsource.slotwin.bean.Prefecture;
+import com.luyunfeng.outsource.slotwin.bean.greendao.DaoManager;
+import com.luyunfeng.outsource.slotwin.bean.greendao.ShopDao;
+import com.luyunfeng.outsource.slotwin.bean.shop.Shop;
 import com.luyunfeng.outsource.slotwin.mvp.base.BaseMvpActivity;
 import com.luyunfeng.outsource.slotwin.mvp.shop.ShopActivity;
-import com.luyunfeng.outsource.slotwin.bean.shop.Shop;
 import com.luyunfeng.outsource.slotwin.view.dialog.DialogFactory;
 import com.luyunfeng.outsource.slotwin.view.dialog.OnSingleSelectedListener;
+
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +40,14 @@ public class MainActivity extends BaseMvpActivity<MainContract.IView, MainContra
     @Override
     public void initialized() {
         prestener.prepareSelections();
+
+        String shopId = SPUtils.getString("shop_id");
+        if (StringUtils.isValid(shopId)){
+            QueryBuilder<Shop> queryBuilder
+                    = DaoManager.getInstance().getDaoSession().queryBuilder(Shop.class);
+            Shop shop = queryBuilder.where(ShopDao.Properties.Id.eq(shopId)).unique();
+            openShopActivity(shop);
+        }
     }
 
     @Override
@@ -76,16 +90,20 @@ public class MainActivity extends BaseMvpActivity<MainContract.IView, MainContra
                     @Override
                     public void onItemSelected(int index) {
                         Shop selected = current.getShops().get(index);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("shop_id", selected.getId());
-                        bundle.putString("shop_name", selected.getName());
-                        bundle.putString("shop_url", selected.getUrl());
-                        bundle.putString("shop_website", selected.getWebsite());
-                        ActivityUtils.open(MainActivity.this, ShopActivity.class, bundle);
+                        openShopActivity(selected);
                     }
                 });
             }
         });
+    }
+
+    private void openShopActivity(Shop shop){
+        Bundle bundle = new Bundle();
+        bundle.putString("shop_id", shop.getId());
+        bundle.putString("shop_name", shop.getName());
+        bundle.putString("shop_url", shop.getUrl());
+        bundle.putString("shop_website", shop.getWebsite());
+        ActivityUtils.open(MainActivity.this, ShopActivity.class, bundle);
     }
 
     @Override
